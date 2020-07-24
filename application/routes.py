@@ -5,7 +5,7 @@ from application import app
 def index():
     return render_template("index.html")
 
-@app.route("/<topic>")
+@app.route("/topic/<topic>")
 def topic_page(topic):
     name = ''
     description = 'Conversations about '
@@ -27,3 +27,6 @@ def topic_page(topic):
 
     return render_template("topic.html", topic=topic, name=name, description=description)
 
+@app.errorhandler(404)
+def error404(error):
+    return render_template("404.html"), 404
