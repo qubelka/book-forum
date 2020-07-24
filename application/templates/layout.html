@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}
+            {% endblock %} | Book forum
+        </title>
+    </head>
+    <body>
+        <h1>
+            {% block content_title %}
+            {% endblock %}
+        </h1>
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
