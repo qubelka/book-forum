@@ -2,6 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         <title>
             {% block title %}
             {% endblock %} | Book forum
@@ -15,7 +24,7 @@
                 {% block content_title %}
                 {% endblock %}
             </h1>
-    
+
                 {% block content %}
                 {% endblock %}
         </div>

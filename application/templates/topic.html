@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block content_title %}
+    {{ description }}
+{% endblock %}
+
+{% block content %}
+<!--
+    {% for thread in threads %}
+        <a href="/topic/thread_name">Thread_name</a>
+    {% endfor %}
+-->
+
+<button type="button" class="btn btn-success">Add new conversation</button>
+
+{% endblock %}

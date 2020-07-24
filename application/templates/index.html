@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block content %}
-        <a href="#" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">Bestsellers</a><br>
-        <a href="#" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">New Releases</a><br>
-        <a href="#" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">What Should I Read Next?</a><br>
-        <a href="#" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">Authors</a>
+        <a href="{{ url_for('topic_page', topic='bestsellers') }}" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">Bestsellers</a>
+        <a href="{{ url_for('topic_page', topic='new_releases') }}" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">New Releases</a>
+        <a href="{{ url_for('topic_page', topic='what_to_read') }}" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">What Should I Read Next?</a>
+        <a href="{{ url_for('topic_page', topic='authors') }}" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">Authors</a>
 {% endblock %}
