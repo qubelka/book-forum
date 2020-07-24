@@ -27,6 +27,14 @@ def topic_page(topic):
 
     return render_template("topic.html", topic=topic, name=name, description=description)
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    return render_template("login.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    return render_template("register.html")
+
 @app.errorhandler(404)
 def error404(error):
     return render_template("404.html"), 404
