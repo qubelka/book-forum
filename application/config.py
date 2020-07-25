@@ -1,0 +1,12 @@
+from os import getenv
+
+class ConfigClass(object):
+    DEBUG = True
+    SECRET_KEY = getenv("SECRET_KEY")
+
+    SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URL")
+    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    SECURITY_PASSWORD_SALT = getenv("SECURITY_PASSWORD_SALT")
+    SECURITY_PASSWORD_HASH = getenv("SECURITY_PASSWORD_HASH", "sha512_crypt")
