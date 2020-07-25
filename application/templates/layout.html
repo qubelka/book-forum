@@ -2,15 +2,6 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-info" role="alert">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
         <title>
             {% block title %}
             {% endblock %} | Book forum
@@ -21,19 +12,17 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #9f65ab;">
-            <a class="navbar-brand" href="#">Book Forum</a>
+            <a class="navbar-brand" href="/">Book Forum</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="form-inline" action="{{ url_for('login') }}" method="POST">
-                    <button class="btn btn-info" type="submit">Sign in</button>
-                </form>
 
-                <form class="form-inline" action="{{ url_for('register') }}" method="POST">
-                    <button class="btn btn-info" type="submit">Register</button>
-                </form>
+                <div class="form-inline">
+                    <a href="/login" class="btn btn-info">Sign in</a>
+                    <a href="/register" class="btn btn-info">Register</a>
+                </div>
 
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
@@ -68,6 +57,17 @@
 
             </div>
         </nav>
+
+        {%- with messages = get_flashed_messages(with_categories=true) -%}
+        {% if messages %}
+        <div class="flashes">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {%- endwith %}
+
         <div class="col-md-6 offset-md-3">
             <h1>
                 {% block content_title %}

@@ -13,7 +13,7 @@ class Role(db.Model, RoleMixin):
     description = db.Column(db.String(255))
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer(), primary_key = True)
+    id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())

@@ -1,4 +1,5 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
+from flask_security import login_required
 from application import app
 
 @app.route("/")
@@ -6,6 +7,7 @@ def index():
     return render_template("index.html")
 
 @app.route("/topic/<topic>")
+@login_required
 def topic_page(topic):
     name = ''
     description = 'Conversations about '
@@ -26,14 +28,6 @@ def topic_page(topic):
         return redirect(url_for("index"))
 
     return render_template("topic.html", topic=topic, name=name, description=description)
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    return render_template("login.html")
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    return render_template("register.html")
 
 @app.errorhandler(404)
 def error404(error):
