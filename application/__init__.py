@@ -8,10 +8,11 @@ app.config.from_object(ConfigClass)
 
 db = SQLAlchemy(app)
 from .forms import *
+from application.security.forms import ExtendedRegisterForm
 
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
+security = Security(app, user_datastore, register_form=ExtendedRegisterForm)
 
 from application import routes
 
