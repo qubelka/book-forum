@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    New thread
+{% endblock %}
+
+{% block content_title %}
+    Add new thread
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ url_for('topics.add_thread', topic=topic) }}" method="POST">
+        <div class="form-group">
+        {{ thread_form.hidden_tag() }}
+        {{ thread_form.name.label(class="control-label") }}
+        {{ thread_form.name(class="form-control") }}
+            </div>
+        <button type="submit" class="btn btn-info">Create discussion</button>
+    </form>
+
+{% endblock %}

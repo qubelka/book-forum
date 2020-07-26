@@ -33,13 +33,13 @@
                             Dicsussion Topics
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url_for('topic_page', topic='bestsellers') }}">Bestsellers</a>
+                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='bestsellers') }}">Bestsellers</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('topic_page', topic='new_releases') }}">New Releases</a>
+                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='new_releases') }}">New Releases</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('topic_page', topic='what_to_read') }}">What Sould I Read Next?</a>
+                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='what_to_read') }}">What Sould I Read Next?</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('topic_page', topic='authors') }}">Authors</a>
+                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='authors') }}">Authors</a>
                         </div>
                     </li>
                 </ul>
