@@ -1,58 +1,36 @@
 from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import current_user
 from flask_security import login_required
-from .models import Message, Thread
+from .models import Message, Thread, Topic
 
 from .forms import ThreadForm, MsgForm
 from .. import db
 
 topics = Blueprint('topics', __name__)
 
-@topics.route("/<topic>")
-def topic_page(topic):
-    name = ''
-    description = 'Discussions about '
-    if topic == 'bestsellers':
-        name = 'Bestsellers'
-        description += 'best-selling books'
-    elif topic == 'new_releases':
-        name = 'New Releases'
-        description += 'upcoming book releases'
-    elif topic == 'what_to_read':
-        name = 'What Should I Read Next?'
-        description += 'reading suggestion'
-    elif topic == 'authors':
-        name = 'Authors'
-        description += 'book authors'
-    else:
-        flash(f'Topic \'{topic}\' does not exist. Please choose one topic from the following list:')
-        return redirect(url_for("index"))
-
-    thread_list = Thread.query.filter(Thread.topic==topic).all()
-    return render_template("topics/topic.html", topic=topic, name=name, description=description, threads=thread_list)
-
-@topics.route("/<topic>/add_thread", methods=["GET", "POST"])
+@topics.route("/<topic_slug>/add_thread", methods=["GET", "POST"])
 @login_required
-def add_thread(topic):
+def add_thread(topic_slug):
     form = ThreadForm()
 
     if form.validate_on_submit():
         name = form.name.data
+        topic = Topic.query.filter(Topic.slug == topic_slug).first()
 
         try:
-            thread = Thread(name=name, topic=topic, user_id=current_user.id)
+            thread = Thread(name=name, topic_id=topic.id, user_id=current_user.id)
             db.session.add(thread)
             db.session.commit()
         except:
             flash('Something went wrong while trying to add the object to the database.', category='warning')
 
-        return redirect(url_for('topics.topic_page', topic=topic))
+        return redirect(url_for('topics.topic_page', topic_slug=topic_slug))
 
-    return render_template("topics/new_thread.html", form=form, topic=topic)
+    return render_template("topics/new_thread.html", form=form, topic_slug=topic_slug)
 
-@topics.route("/<topic>/<thread_slug>/add_message", methods=["GET", "POST"])
+@topics.route("/<topic_slug>/<thread_slug>/add_message", methods=["GET", "POST"])
 @login_required
-def add_message(topic, thread_slug):
+def add_message(topic_slug, thread_slug):
     form = MsgForm()
 
     if form.validate_on_submit():
@@ -66,15 +44,25 @@ def add_message(topic, thread_slug):
         except:
             flash('Something went wrong while trying to add the object to the database.', category='warning')
 
-        return redirect(url_for('topics.show_thread', topic=topic, thread_slug=thread_slug))
+        return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
 
-    return render_template("topics/new_message.html", form=form, topic=topic, thread_slug=thread_slug)
+    return render_template("topics/new_message.html", form=form, topic_slug=topic_slug, thread_slug=thread_slug)
 
-@topics.route("/<topic>/<thread_slug>")
-def show_thread(topic, thread_slug):
+@topics.route("/<topic_slug>/<thread_slug>")
+def show_thread(topic_slug, thread_slug):
     thread = Thread.query.filter(Thread.slug == thread_slug).first()
-    return render_template("topics/show_thread.html", thread=thread, topic=topic)
+    return render_template("topics/show_thread.html", thread=thread, topic_slug=topic_slug)
 
 @topics.route("/")
 def index():
     return render_template("index.html")
+
+@topics.route("/<topic_slug>")
+def topic_page(topic_slug):
+    topic_obj = Topic.query.filter(Topic.slug == topic_slug).first()
+
+    if not topic_obj:
+        flash(f'Topic \'{topic_slug}\' does not exist.', category='warning')
+        return redirect(url_for("index"))
+
+    return render_template("topics/topic.html", topic=topic_obj)

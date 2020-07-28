@@ -18,5 +18,5 @@
 
     {% endfor %}
 
-    <br><a href="{{ url_for('topics.add_message', topic=topic, thread_slug=thread.slug) }}" class="btn btn-info">Add new message</a>
+    <br><a href="{{ url_for('topics.add_message', topic_slug=topic_slug, thread_slug=thread.slug) }}" class="btn btn-info">Add new message</a>
 {% endblock %}

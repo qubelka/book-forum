@@ -1,22 +1,22 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    {{ name }}
+    {{ topic.name }}
 {% endblock %}
 
 {% block content_title %}
-    {{ description }}
+    {{ topic.description }}
 {% endblock %}
 
 {% block content %}
 
-    {% for thread in threads %}
+    {% for thread in topic.threads %}
         <div class="list-group">
-            <a href="{{ url_for('topics.show_thread', topic=topic, thread_slug=thread.slug) }}" class="list-group-item list-group-item-action list-group-item-info">{{ thread.name }}</a>
+            <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}" class="list-group-item list-group-item-action list-group-item-info">{{ thread.name }}</a>
         </div>
     {% endfor %}
 
 
-<br><a href="{{ url_for('topics.add_thread', topic=topic) }}" class="btn btn-info">Add new discussion</a>
+<br><a href="{{ url_for('topics.add_thread', topic_slug=topic.slug) }}" class="btn btn-info">Add new discussion</a>
 
 {% endblock %}

@@ -6,3 +6,6 @@ def create_slug_for_thread(title):
 
 def create_slug_for_message():
     return 'msg#' + str(randint(1,100))
+
+def create_slug_for_topic(name):
+    return re.sub(r'[^\w+]', '-', name)

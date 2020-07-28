@@ -1,10 +1,11 @@
 from flask import render_template, flash, redirect, url_for, request
 from application import app
-from application.topics.models import Thread, Message
+from application.topics.models import Thread, Message, Topic
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    topics = Topic.query.all()
+    return render_template("index.html", topics=topics)
 
 @app.route("/result")
 def result():

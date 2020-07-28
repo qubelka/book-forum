@@ -28,20 +28,7 @@
                 </div>
 
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dicsussion Topics
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='bestsellers') }}">Bestsellers</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='new_releases') }}">New Releases</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='what_to_read') }}">What Sould I Read Next?</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('topics.topic_page', topic='authors') }}">Authors</a>
-                        </div>
-                    </li>
+
                 </ul>
 
                 <form class="form-inline my-2 my-lg-0" action="/result" method="GET">

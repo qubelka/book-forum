@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{{ url_for('topics.add_thread', topic=topic) }}" method="POST">
+    <form action="{{ url_for('topics.add_thread', topic_slug=topic_slug) }}" method="POST">
         <div class="form-group">
             {{ form.hidden_tag() }}
             {{ form.name.label(class="control-label") }}
