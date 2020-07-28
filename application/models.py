@@ -12,6 +12,9 @@ class Role(db.Model, RoleMixin):
     name = db.Column(db.String(100), unique=True)
     description = db.Column(db.String(255))
 
+    def __repr__(self):
+        return f'<Role: {self.name}, id: {self.id}>'
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String(100), unique=True)
@@ -23,3 +26,6 @@ class User(db.Model, UserMixin):
                             backref=db.backref('users', lazy='dynamic'))
     threads = db.relationship('Thread', backref='user', lazy=True)
     messages = db.relationship('Message', backref='user', lazy=True)
+
+    def __repr__(self):
+        return f'<User: {self.username}, id: {self.id}>'
