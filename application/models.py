@@ -21,3 +21,5 @@ class User(db.Model, UserMixin):
     joined = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
+    threads = db.relationship('Thread', backref='user', lazy=True)
+    messages = db.relationship('Message', bacref='user', laxy=True)

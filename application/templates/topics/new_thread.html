@@ -1,22 +1,29 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    New thread
+    New discussion
 {% endblock %}
 
 {% block content_title %}
-    Add new thread
+    Create new discussion
 {% endblock %}
 
 {% block content %}
-
     <form action="{{ url_for('topics.add_thread', topic=topic) }}" method="POST">
         <div class="form-group">
-        {{ thread_form.hidden_tag() }}
-        {{ thread_form.name.label(class="control-label") }}
-        {{ thread_form.name(class="form-control") }}
-            </div>
+            {{ thread_form.hidden_tag() }}
+            {{ thread_form.name.label(class="control-label") }}
+            {{ thread_form.name(class="form-control") }}
+        </div>
+
+        <span class="error">
+            {% if thread_form.name.errors %}
+                {% for error in thread_form.name.errors %}
+                    <div class="alert alert-primary">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </span>
+
         <button type="submit" class="btn btn-info">Create discussion</button>
     </form>
-
 {% endblock %}

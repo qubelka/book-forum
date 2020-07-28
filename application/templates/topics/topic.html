@@ -9,12 +9,14 @@
 {% endblock %}
 
 {% block content %}
-<!--
-    {% for thread in threads %}
-        <a href="/topic/thread_name">Thread_name</a>
-    {% endfor %}
--->
 
-<a href="{{ url_for('topics.add_thread', topic=topic) }}" class="btn btn-info">Add new discussion</a>
+    {% for thread in threads %}
+        <div class="list-group">
+            <a href="{{ url_for('topics.show_thread', topic=topic, thread_slug=thread.slug) }}" class="list-group-item list-group-item-action list-group-item-info">{{ thread.name }}</a>
+        </div>
+    {% endfor %}
+
+
+<br><a href="{{ url_for('topics.add_thread', topic=topic) }}" class="btn btn-info">Add new discussion</a>
 
 {% endblock %}
