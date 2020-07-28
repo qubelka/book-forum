@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    New message
+{% endblock %}
+
+{% block content_title %}
+    Create new message
+{% endblock %}
+
+{% block content %}
+    <form action="{{ url_for('topics.add_message', topic=topic, thread_slug=thread_slug) }}" method="POST">
+        <div class="form-group">
+            {{ form.hidden_tag() }}
+
+            {{ form.body.label(class="control-label") }}
+            {{ form.body(class="form-control") }}
+
+            <span class="error">
+                {% if form.body.errors %}
+                    {% for error in form.body.errors %}
+                        <div class="alert alert-primary">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </span>
+
+        </div>
+
+        <button type="submit" class="btn btn-info">Add message</button>
+    </form>
+{% endblock %}

@@ -1,13 +1,22 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    {{ name }}
+    {{ thread.name }}
 {% endblock %}
 
 {% block content_title %}
-    {{ name }}
+    {{ thread.name }}
 {% endblock %}
 
 {% block content %}
-    Msgs
+
+    {% for msg in thread.messages %}
+      <div class="list-group-item d-flex flex-column">
+          <div>{{ msg.created_by }} </div>
+          <p class="lead"> {{ msg.body }}</p>
+  </div>
+
+    {% endfor %}
+
+    <br><a href="{{ url_for('topics.add_message', topic=topic, thread_slug=thread.slug) }}" class="btn btn-info">Add new message</a>
 {% endblock %}

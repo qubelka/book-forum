@@ -22,4 +22,4 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
     threads = db.relationship('Thread', backref='user', lazy=True)
-    messages = db.relationship('Message', bacref='user', laxy=True)
+    messages = db.relationship('Message', backref='user', lazy=True)

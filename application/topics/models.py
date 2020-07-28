@@ -1,30 +1,28 @@
 from application import db
-from random import randint
+from .helper import create_slug_for_thread, create_slug_for_message
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140))
-    #slug = db.Column(db.String(140), unique=True)
-    slug = db.Column(db.Integer, unique=True)
+    slug = db.Column(db.String(80), unique=True)
     body = db.Column(db.Text)
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
+    created_by = db.Column(db.String(100))
     thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
-        self.slug = randint(1,1000)
+        self.slug = create_slug_for_message()
 
     def __repr__(self):
-        return f'<Message: {self.id}, title: {self.title}>'
+        return f'<Message: {self.id}>'
 
 class Thread(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(140))
-    #slug = db.Column(db.String(140), unique=True)
-    slug = db.Column(db.Integer, unique=True)
+    name = db.Column(db.String(70))
+    slug = db.Column(db.String(80), unique=True)
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
@@ -34,7 +32,7 @@ class Thread(db.Model):
 
     def __init__(self, *args, **kwargs):
         super(Thread, self).__init__(*args, **kwargs)
-        self.slug = randint(1,1000)
+        self.slug = create_slug_for_thread(self.name)
 
     def __repr__(self):
         return f'<Thread: {self.id}, name: {self.name}>'
