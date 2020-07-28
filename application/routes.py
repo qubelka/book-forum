@@ -1,9 +1,19 @@
 from flask import render_template, flash, redirect, url_for, request
 from application import app
+from application.topics.models import Thread, Message
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/result")
+def result():
+    query = request.args.get("query")
+    result = None
+    if query:
+        result = Message.query.filter(Message.body.contains(query))
+
+    return render_template("result.html", result=result)
 
 @app.route("/success/<type>")
 def success(type):
