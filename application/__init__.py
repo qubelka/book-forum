@@ -17,13 +17,13 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore, register_form=ExtendedRegisterForm)
 
 # Setup Flask-Admin
-from .security.admin import AdminView, CustomAdminIndexView
+from .security.admin import *
 admin = Admin(app, index_view=CustomAdminIndexView())
-admin.add_view(AdminView(User, db.session))
+admin.add_view(UserCustomView(User, db.session))
 admin.add_view((AdminView(Role, db.session)))
-admin.add_view((AdminView(Thread, db.session)))
-admin.add_view((AdminView(Message, db.session)))
-admin.add_view((AdminView(Topic, db.session)))
+admin.add_view((ThreadCustomView(Thread, db.session)))
+admin.add_view((MessageCustomView(Message, db.session)))
+admin.add_view((TopicCustomView(Topic, db.session)))
 
 from application.topics.topics_bp import topics
 app.register_blueprint(topics, url_prefix='/topics')
