@@ -1,11 +1,10 @@
 import re
 from random import randint
 
-def create_slug_for_thread(title):
-    return re.sub(r'[^\w+]', '-', title) + '.' + str(randint(1,100))
-
-def create_slug_for_message():
-    return 'msg#' + str(randint(1,100))
-
-def create_slug_for_topic(name):
-    return re.sub(r'[^\w+]', '-', name)
+def create_slug(title, type):
+    if type == 'Message':
+        return 'msg#' + str(randint(1, 100))
+    elif type == 'Thread':
+        return re.sub(r'[^\w+]', '-', title) + '.' + str(randint(1, 100))
+    elif type == 'Topic':
+        return re.sub(r'[^\w+]', '-', title)
