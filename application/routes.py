@@ -4,8 +4,7 @@ from application.topics.models import Thread, Message, Topic
 
 @app.route("/")
 def index():
-    topics = Topic.query.all()
-    return render_template("index.html", topics=topics)
+    return render_template("index.html")
 
 @app.route("/result")
 def result():
@@ -31,3 +30,7 @@ def success(type):
 @app.errorhandler(404)
 def error404(error):
     return render_template("404.html"), 404
+
+@app.context_processor
+def get_topics():
+    return dict(topics_list=Topic.query)
