@@ -53,6 +53,13 @@
         {%- endwith %}
 
         <div class="col-md-6 offset-md-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="background-color: #fff;">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </ol>
+            </nav>
+
             <h1>
                 {% block content_title %}
                 {% endblock %}

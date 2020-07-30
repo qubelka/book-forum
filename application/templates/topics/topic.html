@@ -1,5 +1,10 @@
 {% extends 'layout.html' %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Topics</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{topic.name}}</li>
+{% endblock %}
+
 {% block title %}
     {{ topic.name }}
 {% endblock %}

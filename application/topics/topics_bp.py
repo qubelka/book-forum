@@ -50,8 +50,9 @@ def add_message(topic_slug, thread_slug):
 
 @topics.route("/<topic_slug>/<thread_slug>")
 def show_thread(topic_slug, thread_slug):
+    topic = Topic.query.filter(Topic.slug==topic_slug).first()
     thread = Thread.query.filter(Thread.slug == thread_slug).first()
-    return render_template("topics/show_thread.html", thread=thread, topic_slug=topic_slug)
+    return render_template("topics/show_thread.html", thread=thread, topic=topic)
 
 @topics.route("/")
 def index():
