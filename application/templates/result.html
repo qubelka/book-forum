@@ -12,7 +12,7 @@
 
     {% for msg in result %}
       <div class="list-group-item d-flex flex-column">
-          <div>{{ msg.created_by }} </div>
+          <div>{{ msg.user.username}} </div>
           <p class="lead"> {{ msg.body }}</p>
       </div>
     {% endfor %}

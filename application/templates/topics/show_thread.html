@@ -15,14 +15,25 @@
 {% endblock %}
 
 {% block content %}
-
-    {% for msg in thread.messages %}
-      <div class="list-group-item d-flex flex-column">
-          <div>{{ msg.created_by }} </div>
-          <p class="lead"> {{ msg.body }}</p>
-  </div>
-
-    {% endfor %}
+    <table class="table">
+        <tbody>
+        {% for msg in thread.messages %}
+        <tr>
+            <th scope="row" rowspan="2">{{ msg.user.username }}</th>
+            <td scope="col" colspan="3"><small>{{ msg.modified.strftime("%b %-d, %Y at %-H:%-M %p") }}</small></td>
+        </tr>
+        <tr>
+            <td class="border-top-0 lead">{{ msg.body }}</td>
+            {% if current_user.id == msg.user_id %}
+            <td class="border-top-0">
+                <a href="#" class="btn btn-warning">edit</a>
+                <a href="#" class="btn btn-danger">delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
     <br><a href="{{ url_for('topics.add_message', topic_slug=topic.slug, thread_slug=thread.slug) }}" class="btn btn-info">Add new message</a>
 {% endblock %}

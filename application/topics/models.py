@@ -8,7 +8,6 @@ class Message(db.Model):
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
-    created_by = db.Column(db.String(100), default='admin')
     thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -26,7 +25,6 @@ class Thread(db.Model):
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
-    #topic = db.Column(db.String(70), nullable=False)
     messages = db.relationship('Message', backref='thread', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     topic_id = db.Column(db.Integer, db.ForeignKey('topic.id'), nullable=False)

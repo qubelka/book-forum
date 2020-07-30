@@ -38,7 +38,7 @@ def add_message(topic_slug, thread_slug):
         thread = Thread.query.filter(Thread.slug == thread_slug).first()
 
         try:
-            message = Message(body=body, created_by=current_user.username, thread_id=thread.id, user_id=current_user.id)
+            message = Message(body=body, thread_id=thread.id, user_id=current_user.id)
             db.session.add(message)
             db.session.commit()
         except:
@@ -67,3 +67,7 @@ def topic_page(topic_slug):
         return redirect(url_for("index"))
 
     return render_template("topics/topic.html", topic=topic_obj)
+
+@topics.route("/delete/<msg_slug>")
+def delete_msg(msg_slug):
+    return 'Msg deleted'
