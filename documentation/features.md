@@ -6,25 +6,25 @@ Book forum is a web-application, which by default provides 4 discussion topics:
 * What Should I Read Next?
 * Authors
 
-(Admin user can modify the default topics list.)
+(Only admin user can modify the default topics list.)
 
 ### Features
 
-#### 1. Registration
+#### 1. Registration 
 
-Users can register. 
+- [x] Users can register. 
 
 #### 2. Authorization
 
-Registered users can log in.
+- [x] Registered users can log in.
 
 #### 3. Adding a new thread
 
-Authorised users can add new threads within the topics. 
+- [x] Authorised users can add new threads within the topics. 
 
 #### 4. Adding messages
 
-Authorised users can add new messages within threads. 
+ - [x] Authorised users can add new messages within threads. 
 
 #### 5. Removing messages
 
@@ -37,13 +37,19 @@ Authorised users can edit the messages they have added.
 #### 7. Search
 
 All users can conduct keyword search. Search will return all messages
-which contain the keyword in the message body or within the tag / thread title / topic title. 
+which contain the keyword in the 
+- [x] message body (only perfect matches) /
+- [ ] ~~within the tag~~ (?) / 
+- [ ] thread title / 
+- [ ] topic title
 
 #### 8. Admin mode
 
-There is a role associated with each user. Admin role gives more privileges to the user:
+- [x] There is a role associated with each user. Admin role gives more privileges to the user:
 admin has access to all information in the database and can make any modifications.
+
+- [ ]  Navigation between admin & user view. 
 
 #### 9. Secret threads (?)
 
-Possibility to add secret threads which are visible only to the specified users.
+- [ ] Possibility to add secret threads which are visible only to the specified users.
