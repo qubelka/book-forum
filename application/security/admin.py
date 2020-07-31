@@ -1,7 +1,9 @@
-from flask import redirect, url_for, request, flash
+from flask import redirect, url_for, flash
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
 from flask_security import current_user
+from flask_security.utils import hash_password
+from application import db
 from application.topics.helper import create_slug
 from application.models import User
 
@@ -24,8 +26,17 @@ class AdminView(ModelView):
                 admin = User.query.filter(User.username == 'admin').first()
                 model.user_id = admin.id
 
+        if type(model) is User:
+            model.password = hash_password(model.password)
+
         return super(AdminView, self).on_model_change(form, model, is_created)
 
+    def delete_model(self, model):
+        if type(model) is User:
+            model.active = False
+            db.session.add(model)
+            db.session.commit()
+            return True
 
 class CustomAdminIndexView(AdminIndexView):
     def is_accessible(self):

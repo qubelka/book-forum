@@ -14,5 +14,6 @@ class ConfigClass(object):
     SECURITY_POST_LOGIN_VIEW = '/success/login'
     SECURITY_POST_LOGOUT_VIEW = '/success/logout'
     SECURITY_SEND_REGISTER_EMAIL = False
+    SECURITY_MSG_DISABLED_ACCOUNT = (('Specified user does not exist.'), 'error')
     SECURITY_PASSWORD_SALT = os.getenv("SECURITY_PASSWORD_SALT")
     SECURITY_PASSWORD_HASH = os.getenv("SECURITY_PASSWORD_HASH", "sha512_crypt")
