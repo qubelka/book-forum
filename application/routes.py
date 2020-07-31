@@ -9,11 +9,16 @@ def index():
 @app.route("/result")
 def result():
     query = request.args.get("query")
-    result = None
-    if query:
-        result = Message.query.filter(Message.body.contains(query))
+    result_msg = None
+    result_thread = None
+    result_topic = None
 
-    return render_template("result.html", result=result)
+    if query:
+        result_msg = Message.query.filter(Message.body.contains(query)).all()
+        result_thread = Thread.query.filter(Thread.name.contains(query)).all()
+        result_topic = Topic.query.filter(Topic.name.contains(query)).all()
+
+    return render_template("result.html", result_msg=result_msg, result_thread=result_thread, result_topic=result_topic, query=query)
 
 @app.route("/success/<type>")
 def success(type):
