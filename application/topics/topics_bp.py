@@ -68,6 +68,29 @@ def topic_page(topic_slug):
 
     return render_template("topics/topic.html", topic=topic_obj)
 
-@topics.route("/delete/<msg_slug>")
-def delete_msg(msg_slug):
-    return 'Msg deleted'
+@topics.route("/<topic_slug>/<thread_slug>/<msg_slug>/delete", methods=["GET", "POST"])
+@login_required
+def delete_msg(topic_slug, thread_slug, msg_slug):
+    if request.method == "GET":
+        return render_template("topics/delete_message.html", topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
+
+    Message.query.filter(Message.slug==msg_slug).delete()
+    db.session.commit()
+    flash('The message has been successfully deleted.', category='success')
+    return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
+
+@topics.route("/<topic_slug>/<thread_slug>/<msg_slug>/edit", methods=["GET", "POST"])
+@login_required
+def edit_msg(topic_slug, thread_slug, msg_slug):
+    msg = Message.query.filter(Message.slug==msg_slug).first()
+
+    if request.method == "GET":
+        form = MsgForm(obj=msg)
+
+        return render_template("topics/edit_message.html", form=form, topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
+
+    form = MsgForm(formdata=request.form, obj=msg)
+    form.populate_obj(msg)
+    db.session.commit()
+    flash('The message has been successfully edited.', category='success')
+    return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))

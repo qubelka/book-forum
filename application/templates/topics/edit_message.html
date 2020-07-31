@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Edit message
+{% endblock %}
+
+{% block content_title %}
+    Edit message
+{% endblock %}
+
+{% block content %}
+    <form action="{{ url_for('topics.edit_msg', topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug) }}" method="POST">
+        <div class="form-group">
+            {{ form.hidden_tag() }}
+
+            {{ form.body.label(class="control-label") }}
+            {{ form.body(class="form-control") }}
+
+            <span class="error">
+                {% if form.body.errors %}
+                    {% for error in form.body.errors %}
+                        <div class="alert alert-primary">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </span>
+
+        </div>
+        <button type="submit" class="btn btn-warning">Edit message</button>
+        <a href="{{ url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug) }}" class="btn btn-info">Go back</a>
+    </form>
+{% endblock %}

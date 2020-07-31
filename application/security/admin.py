@@ -38,6 +38,8 @@ class AdminView(ModelView):
             db.session.commit()
             return True
 
+        super(AdminView, self).delete_model(model)
+
 class CustomAdminIndexView(AdminIndexView):
     def is_accessible(self):
         return current_user.has_role('admin')
