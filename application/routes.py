@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, request
 from application import app
 from application.topics.models import Thread, Message, Topic
 
@@ -18,7 +18,9 @@ def result():
         result_thread = Thread.query.filter(Thread.name.contains(query)).all()
         result_topic = Topic.query.filter(Topic.name.contains(query)).all()
 
-    return render_template("result.html", result_msg=result_msg, result_thread=result_thread, result_topic=result_topic, query=query)
+        return render_template("result.html", result_msg=result_msg, result_thread=result_thread, result_topic=result_topic, query=query)
+
+    return redirect("/")
 
 @app.route("/success/<type>")
 def success(type):
@@ -30,7 +32,8 @@ def success(type):
         flash('You have been successfully logged out.', category='success')
     else:
         flash(f'Path \'success/{type}\' does not exist.', category='warning')
-    return redirect('/')
+
+    return redirect('/result')
 
 @app.errorhandler(404)
 def error404(error):

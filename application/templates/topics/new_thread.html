@@ -14,6 +14,12 @@
             {{ form.hidden_tag() }}
             {{ form.name.label(class="control-label") }}
             {{ form.name(class="form-control") }}
+            {{ form.checkbox(onchange='show_form()') }}
+            {{ form.checkbox.label(class="control-label") }}
+            <div class="secret_thread_form" style="display: none">
+                Please choose users, who will be able to see the secret thread and the messages associated with it:<br>
+                {{ form.users(class="form-control") }}
+            </div>
         </div>
 
         <span class="error">
@@ -26,4 +32,16 @@
 
         <button type="submit" class="btn btn-info">Create discussion</button>
     </form>
+
+    <script>
+        const show_form = () => {
+          let form = document.querySelector('.secret_thread_form');
+
+          if (form.style.display === 'none') {
+              form.style.display = 'block';
+          } else {
+             form.style.display = 'none';
+          }
+        };
+    </script>
 {% endblock %}
