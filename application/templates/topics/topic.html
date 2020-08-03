@@ -17,7 +17,9 @@
 
     {% for thread in topic.threads %}
         <div class="list-group">
-            <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}" class="list-group-item list-group-item-action list-group-item-info">{{ thread.name }}</a>
+            {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
+                <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}" class="list-group-item list-group-item-action list-group-item-info">{{ thread.name }}</a>
+            {% endif %}
         </div>
     {% endfor %}
 

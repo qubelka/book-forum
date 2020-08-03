@@ -26,7 +26,7 @@ class Thread(db.Model):
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
     messages = db.relationship('Message', backref='thread', lazy=True, cascade='all,delete')
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     topic_id = db.Column(db.Integer, db.ForeignKey('topic.id'), nullable=False)
 
     def __init__(self, *args, **kwargs):

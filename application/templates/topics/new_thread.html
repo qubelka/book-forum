@@ -18,7 +18,11 @@
             {{ form.checkbox.label(class="control-label") }}
             <div class="secret_thread_form" style="display: none">
                 Please choose users, who will be able to see the secret thread and the messages associated with it:<br>
-                {{ form.users(class="form-control") }}
+                <select class="selectpicker" data-live-search="true" name="secret_thread_users" data-size="5" multiple>
+                    {% for choice in form.users.choices %}
+                        <option value="{{ choice[0] }}">{{ choice[1] }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
 

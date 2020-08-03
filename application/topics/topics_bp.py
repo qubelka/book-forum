@@ -4,6 +4,7 @@ from flask_security import login_required
 from .models import Message, Thread, Topic
 
 from .forms import ThreadForm, MsgForm
+from ..models import User
 from .. import db
 
 topics = Blueprint('topics', __name__)
@@ -12,15 +13,30 @@ topics = Blueprint('topics', __name__)
 @login_required
 def add_thread(topic_slug):
     form = ThreadForm()
+    form.users.choices = [(user.id, user.username) for user in User.query.filter(User.active == True).all()]
 
     if form.validate_on_submit():
         name = form.name.data
         topic = Topic.query.filter(Topic.slug == topic_slug).first()
+        secret_thread_users = []
+        secret_thread_user_objects = []
+
+        if form.checkbox.data == True:
+            secret_thread_users = request.form.getlist('secret_thread_users')
+            if secret_thread_users:
+                for id in secret_thread_users:
+                    user = User.query.filter(User.id == id).first()
+                    secret_thread_user_objects.append(user)
+
+            secret_thread_user_objects.append(current_user)
 
         try:
-            thread = Thread(name=name, topic_id=topic.id, user_id=current_user.id)
+            thread = Thread(name=name, topic_id=topic.id, creator_id=current_user.id)
+            if form.checkbox.data == True:
+                thread.secret_users.extend(secret_thread_user_objects)
             db.session.add(thread)
             db.session.commit()
+
         except:
             flash('Something went wrong while trying to add the object to the database.', category='warning')
 

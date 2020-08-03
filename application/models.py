@@ -7,6 +7,11 @@ roles_users = db.Table('roles_users',
                        db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
 )
 
+secret_threads_users = db.Table('secret_threads_users',
+                       db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+                       db.Column('thread_id', db.Integer(), db.ForeignKey('thread.id'))
+)
+
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
@@ -24,7 +29,8 @@ class User(db.Model, UserMixin):
     joined = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
-    threads = db.relationship('Thread', backref='user', lazy=True)
+    created_threads = db.relationship('Thread', backref='creator', lazy=True)
+    secret_threads = db.relationship('Thread', secondary=secret_threads_users, backref=db.backref('secret_users', lazy=True))
     messages = db.relationship('Message', backref='user', lazy=True)
 
     def __repr__(self):
