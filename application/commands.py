@@ -1,6 +1,6 @@
 import click
 from flask.cli import with_appcontext
-
+from flask_security.utils import hash_password
 from application import db, user_datastore
 from application.topics.models import Topic
 
@@ -10,8 +10,9 @@ def create_db():
     db.drop_all()
     db.create_all()
 
-    user_datastore.create_user(email='user@test.com', password='password', username='user')
-    admin = user_datastore.create_user(email='admin@test.com', password='password', username='admin')
+    hash = hash_password('password')
+    user_datastore.create_user(email='user@test.com', password=hash, username='user')
+    admin = user_datastore.create_user(email='admin@test.com', password=hash, username='admin')
     role = user_datastore.create_role(name='admin', description='user with administrative privileges')
     admin.roles.append(role)
 
