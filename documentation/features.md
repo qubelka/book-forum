@@ -28,11 +28,11 @@ Book forum is a web-application, which by default provides 4 discussion topics:
 
 #### 5. Removing messages
 
-Authorised users can remove the messages they have added.
+ - [x] Authorised users can remove the messages they have added.
 
 #### 6. Editing messages
 
-Authorised users can edit the messages they have added.
+ - [x] Authorised users can edit the messages they have added.
 
 #### 7. Search
 
@@ -40,8 +40,8 @@ All users can conduct keyword search. Search will return all messages
 which contain the keyword in the 
 - [x] message body (only perfect matches) /
 - [ ] ~~within the tag~~ (?) / 
-- [ ] thread title / 
-- [ ] topic title
+- [x] thread title / 
+- [x] topic title
 
 #### 8. Admin mode
 
@@ -50,6 +50,6 @@ admin has access to all information in the database and can make any modificatio
 
 - [ ]  Navigation between admin & user view. 
 
-#### 9. Secret threads (?)
+#### 9. Secret threads
 
-- [ ] Possibility to add secret threads which are visible only to the specified users.
+- [x] Possibility to add secret threads which are visible only to the specified users.
