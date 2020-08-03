@@ -9,7 +9,7 @@ class Message(db.Model):
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
     thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)

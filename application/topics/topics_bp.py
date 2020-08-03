@@ -38,7 +38,7 @@ def add_thread(topic_slug):
             db.session.commit()
 
         except:
-            flash('Something went wrong while trying to add the object to the database.', category='warning')
+            flash('Something went wrong while trying to add the object to the database. Please try again later.', category='warning')
 
         return redirect(url_for('topics.topic_page', topic_slug=topic_slug))
 
@@ -58,11 +58,11 @@ def add_message(topic_slug, thread_slug):
         body = form.body.data
 
         try:
-            message = Message(body=body, thread_id=thread.id, user_id=current_user.id)
+            message = Message(body=body, thread_id=thread.id, creator_id=current_user.id)
             db.session.add(message)
             db.session.commit()
         except:
-            flash('Something went wrong while trying to add the object to the database.', category='warning')
+            flash('Something went wrong while trying to add the object to the database. Please try again later.', category='warning')
 
         return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
 
@@ -97,7 +97,7 @@ def topic_page(topic_slug):
 def delete_msg(topic_slug, thread_slug, msg_slug):
     msg = Message.query.filter(Message.slug == msg_slug)
 
-    if not current_user.id == msg[0].user_id:
+    if not current_user.id == msg[0].creator_id:
         abort(404)
 
     if request.method == "GET":
@@ -113,7 +113,7 @@ def delete_msg(topic_slug, thread_slug, msg_slug):
 def edit_msg(topic_slug, thread_slug, msg_slug):
     msg = Message.query.filter(Message.slug==msg_slug).first()
 
-    if not current_user.id == msg.user_id:
+    if not current_user.id == msg.creator_id:
         abort(404)
 
     if request.method == "GET":

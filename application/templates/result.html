@@ -18,7 +18,7 @@
                     {% for msg in result_msg %}
                         {% if (not msg.thread.secret_users) or (current_user in msg.thread.secret_users) %}
                             <tr>
-                                <th scope="row" rowspan="2">{{ msg.user.username }}</th>
+                                <th scope="row" rowspan="2">{{ msg.creator.username }}</th>
                                 <td scope="col" colspan="3"><small>{{ msg.modified.strftime("%b %-d, %Y at %-H:%-M %p") }}</small></td>
                             </tr>
                             <tr>

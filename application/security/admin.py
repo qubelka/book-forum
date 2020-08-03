@@ -22,9 +22,9 @@ class AdminView(ModelView):
             else:
                 model.slug = create_slug(title=None, type='Message')
 
-            if hasattr(model, 'user_id'):
+            if hasattr(model, 'creator_id'):
                 admin = User.query.filter(User.username == 'admin').first()
-                model.user_id = admin.id
+                model.creator_id = admin.id
 
         if type(model) is User:
             model.password = hash_password(model.password)

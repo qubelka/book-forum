@@ -31,7 +31,7 @@ class User(db.Model, UserMixin):
                             backref=db.backref('users', lazy='dynamic'))
     created_threads = db.relationship('Thread', backref='creator', lazy=True)
     secret_threads = db.relationship('Thread', secondary=secret_threads_users, backref=db.backref('secret_users', lazy=True))
-    messages = db.relationship('Message', backref='user', lazy=True)
+    messages = db.relationship('Message', backref='creator', lazy=True)
 
     def __repr__(self):
         return f'<User: {self.username}, id: {self.id}>'
