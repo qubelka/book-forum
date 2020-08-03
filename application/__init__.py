@@ -1,7 +1,8 @@
-from flask import Flask, session
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_admin import Admin
+from flask_admin.menu import MenuLink
 from .config import ConfigClass
 
 app = Flask(__name__)
@@ -24,6 +25,7 @@ admin.add_view((AdminView(Role, db.session)))
 admin.add_view((TopicCustomView(Topic, db.session)))
 admin.add_view((ThreadCustomView(Thread, db.session)))
 admin.add_view((MessageCustomView(Message, db.session)))
+admin.add_link(MenuLink(name='Back to book forum main page', category='', url='/'))
 
 from application.topics.topics_bp import topics
 app.register_blueprint(topics, url_prefix='/topics')
