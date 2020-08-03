@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, url_for, redirect, request
+from flask import Blueprint, render_template, flash, url_for, redirect, request, abort
 from flask_login import current_user
 from flask_security import login_required
 from .models import Message, Thread, Topic
@@ -13,7 +13,7 @@ topics = Blueprint('topics', __name__)
 @login_required
 def add_thread(topic_slug):
     form = ThreadForm()
-    form.users.choices = [(user.id, user.username) for user in User.query.filter(User.active == True).all()]
+    form.users.choices = [(user.id, user.username) for user in User.query.filter((User.active == True) or (User.id != current_user.id)).all()]
 
     if form.validate_on_submit():
         name = form.name.data
@@ -47,11 +47,15 @@ def add_thread(topic_slug):
 @topics.route("/<topic_slug>/<thread_slug>/add_message", methods=["GET", "POST"])
 @login_required
 def add_message(topic_slug, thread_slug):
+    thread = Thread.query.filter(Thread.slug == thread_slug).first()
+
+    if thread.secret_users and (current_user not in thread.secret_users):
+        abort(404)
+
     form = MsgForm()
 
     if form.validate_on_submit():
         body = form.body.data
-        thread = Thread.query.filter(Thread.slug == thread_slug).first()
 
         try:
             message = Message(body=body, thread_id=thread.id, user_id=current_user.id)
@@ -66,8 +70,12 @@ def add_message(topic_slug, thread_slug):
 
 @topics.route("/<topic_slug>/<thread_slug>")
 def show_thread(topic_slug, thread_slug):
-    topic = Topic.query.filter(Topic.slug==topic_slug).first()
     thread = Thread.query.filter(Thread.slug == thread_slug).first()
+
+    if thread.secret_users and (current_user not in thread.secret_users):
+        abort(404)
+
+    topic = Topic.query.filter(Topic.slug==topic_slug).first()
     return render_template("topics/show_thread.html", thread=thread, topic=topic)
 
 @topics.route("/")
@@ -87,10 +95,15 @@ def topic_page(topic_slug):
 @topics.route("/<topic_slug>/<thread_slug>/<msg_slug>/delete", methods=["GET", "POST"])
 @login_required
 def delete_msg(topic_slug, thread_slug, msg_slug):
+    msg = Message.query.filter(Message.slug == msg_slug)
+
+    if not current_user.id == msg[0].user_id:
+        abort(404)
+
     if request.method == "GET":
         return render_template("topics/delete_message.html", topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
 
-    Message.query.filter(Message.slug==msg_slug).delete()
+    msg.delete()
     db.session.commit()
     flash('The message has been successfully deleted.', category='success')
     return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
@@ -99,6 +112,9 @@ def delete_msg(topic_slug, thread_slug, msg_slug):
 @login_required
 def edit_msg(topic_slug, thread_slug, msg_slug):
     msg = Message.query.filter(Message.slug==msg_slug).first()
+
+    if not current_user.id == msg.user_id:
+        abort(404)
 
     if request.method == "GET":
         form = MsgForm(obj=msg)
