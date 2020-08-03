@@ -22,17 +22,9 @@ def result():
 
     return redirect("/")
 
-@app.route("/success/<type>")
-def success(type):
-    if type == 'registration':
-        flash('You have been successfully registered.', category='success')
-    elif type == 'login':
-        flash('You have been successfully logged in.', category='success')
-    elif type == 'logout':
-        flash('You have been successfully logged out.', category='success')
-    else:
-        flash(f'Path \'success/{type}\' does not exist.', category='warning')
-
+@app.route("/success/registration")
+def success():
+    flash('You have been successfully registered.', category='success')
     return redirect('/result')
 
 @app.errorhandler(404)
