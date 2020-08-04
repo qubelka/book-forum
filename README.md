@@ -147,6 +147,7 @@ functionality of this command by modifying `application/commands.py` file. To wo
 the initialized database, the application requires 4
 `.env` variables: `DATABASE_URL`, `SECRET_KEY`, `SECURITY_PASSWORD_HASH` and `SECURITY_PASSWORD_SALT`. Modify the 
  `application/config.py` if you don't want to use the `.env` file. 
+
 ---
 
 ##### (First assignment 26.7.) Original list of features for implementation :
