@@ -48,7 +48,7 @@ which contain the keyword in the
 - [x] There is a role associated with each user. Admin role gives more privileges to the user:
 admin has access to all information in the database and can make any modifications.
 
-- [ ]  Navigation between admin & user view. 
+- [x]  Navigation between admin & user view. 
 
 #### 9. Secret threads
 
