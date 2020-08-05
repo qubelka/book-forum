@@ -65,7 +65,7 @@ a particular message and will be visible for anyone on the forum.
 
 #### Adding a new thread
 
-After singing in choose one of the topics to add a new thread. There are 4 predefined topics:
+After signing in choose one of the topics to add a new thread. There are 4 predefined topics:
 Bestsellers, New Releases, What Should I Read Next? and Authors. Only admin can modify the list
 of topics. More on modifying the topics in [admin mode](#admin-mode). 
 
@@ -91,7 +91,7 @@ it can be max 255 characters long.
 
 The signed in users can edit the messages they have added. Go to the thread inside which you want
 to edit a message. The messages that you have added should have a yellow "edit" button on the right
-side. Click the "edit" button, make modifications and click "Edit message" to confirm these modification. 
+side. Click the "edit" button, make any required modifications and then click "Edit message" to complete your actions. 
 Click "Go back" if you do not want to modify the message. 
 
 #### Removing messages
@@ -113,7 +113,7 @@ the search by typing the keyword into the search field on the right side of the 
 
 There is a role associated with each user. Admin role gives more privileges to the user:
 admin has access to all information in the database and can make almost any modifications on the forum. By
-default there is an admin user which hsa admin privileges. To access the admin view, sign in as admin user (email: 
+default there is an admin user which has admin privileges. To access the admin view, sign in as admin user (email: 
 admin@test.com, password: password). Click "Admin view" button on the right side of the navigation bar. 
 
 You should be redirected to the flask-admin view with all the tables from the database, i.e. 
