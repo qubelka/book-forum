@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, url_for, redirect, request, abort
 from flask_login import current_user
 from flask_security import login_required
+from sqlalchemy import and_
 from .models import Message, Thread, Topic
 
 from .forms import ThreadForm, MsgForm
@@ -13,7 +14,7 @@ topics = Blueprint('topics', __name__)
 @login_required
 def add_thread(topic_slug):
     form = ThreadForm()
-    form.users.choices = [(user.id, user.username) for user in User.query.filter((User.active == True) or (User.id != current_user.id)).all()]
+    form.users.choices = [(user.id, user.username) for user in User.query.filter(and_(User.active == True, User.id != current_user.id)).all()]
 
     if form.validate_on_submit():
         name = form.name.data

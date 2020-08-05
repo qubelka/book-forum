@@ -1,3 +1,5 @@
+from sqlalchemy import and_
+
 from flask import redirect, url_for, flash
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
@@ -6,6 +8,9 @@ from flask_security.utils import hash_password
 from application import db
 from application.topics.helper import create_slug
 from application.models import User
+
+def active_users_excluding_admin():
+    return User.query.filter(and_(User.active == True, User.id != current_user.id))
 
 class AdminView(ModelView):
     def is_accessible(self):
@@ -19,6 +24,11 @@ class AdminView(ModelView):
         if type(model).__name__ in ['Topic', 'Thread', 'Message']:
             if hasattr(model, 'name'):
                 model.slug = create_slug(title=model.name, type=type(model).__name__)
+
+                if hasattr(model, 'secret_users'):
+                    if model.secret_users:
+                        model.secret_users.append(current_user)
+
             else:
                 model.slug = create_slug(title=None, type='Message')
 
@@ -52,7 +62,12 @@ class UserCustomView(AdminView, ModelView):
     form_columns = ['roles', 'email', 'password', 'username']
 
 class ThreadCustomView(AdminView, ModelView):
-    form_columns = ['name', 'topic']
+    form_columns = ['name', 'topic', 'secret_users']
+    form_args = dict(
+        secret_users = dict(
+            query_factory=active_users_excluding_admin
+        )
+    )
 
 class MessageCustomView(AdminView, ModelView):
     form_columns = ['body', 'thread']

@@ -128,12 +128,16 @@ you will not be able to access the admin view from Heroku anymore, because the a
 user during the creation of the database.** 
 
 When creating new objects in the database via admin view, you will have to fill in all the 
-fields marked as mandatory (with red star). For example, a message requires information about 
+fields marked as mandatory (with a red star). For example, a message requires information about 
 the thread within which it has to be added. In the same way adding a thread requires information
 about the topic it will be added to. Threads and messages added via admin view will
-be automatically marked as added by 'admin'. New topics will be accessible by all the users
-on the topics page. The deletion of threads, topics and messages via admin view is described in
- [deletion](#deletion) section.
+be automatically marked as added by 'admin'. **Specifying the secret users while creating a new thread, 
+automatically makes this thread secret (will be visible only to admin and the specified users).** There is
+no option to make a secret thread visible only for admin via admin view. However, it is possible to create
+such a thread using forum user interface. 
+
+New topics added via admin view will be visible to all the users on the topics page. 
+The deletion of threads, topics and messages via admin view is described in [deletion](#deletion) section.
 
 ### Cloning the project
 
