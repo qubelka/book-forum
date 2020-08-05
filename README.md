@@ -105,7 +105,7 @@ clicking "Yes, delete message." or go back by clicking "No, go back".
 
 All users can conduct keyword search. The search results from the secret threads will be visible
 only for the users who has access rights to these threads. Search will return all messages / threads / topics
-which contain the keyword in the message body / thread title / topic title (only perfect matches). Conduct
+which contain the keyword in the message body / thread title / topic title. Conduct
 the search by typing the keyword into the search field on the right side of the navigation bar. Click 
 "Search" button to show the results.
 

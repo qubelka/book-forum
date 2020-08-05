@@ -14,9 +14,9 @@ def result():
     result_topic = None
 
     if query:
-        result_msg = Message.query.filter(Message.body.contains(query)).all()
-        result_thread = Thread.query.filter(Thread.name.contains(query)).all()
-        result_topic = Topic.query.filter(Topic.name.contains(query)).all()
+        result_msg = Message.query.filter(Message.body.ilike(f'%{query}%')).all()
+        result_thread = Thread.query.filter(Thread.name.ilike(f'%{query}%')).all()
+        result_topic = Topic.query.filter(Topic.name.ilike(f'%{query}%')).all()
 
         return render_template("result.html", result_msg=result_msg, result_thread=result_thread, result_topic=result_topic, query=query)
 

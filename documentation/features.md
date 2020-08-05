@@ -38,7 +38,7 @@ Book forum is a web-application, which by default provides 4 discussion topics:
 
 All users can conduct keyword search. Search will return all messages
 which contain the keyword in the 
-- [x] message body (only perfect matches) /
+- [x] message body (~~only perfect matches~~) /
 - [ ] ~~within the tag~~ (?) / 
 - [x] thread title / 
 - [x] topic title
