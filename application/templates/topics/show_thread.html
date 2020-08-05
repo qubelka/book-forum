@@ -17,7 +17,7 @@
 {% block content %}
     <table class="table">
         <tbody>
-        {% for msg in thread.messages %}
+        {% for msg in messages.items %}
         <tr>
             <th scope="row" rowspan="2">{{ msg.creator.username }}</th>
             <td scope="col" colspan="3"><small>{{ msg.modified.strftime("%b %-d, %Y at %-H:%-M %p") }}</small></td>
@@ -34,6 +34,10 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {% for page in messages.iter_pages() %}
+        <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug, page=page) }}">{{ page }}</a>
+    {% endfor %}
 
     <br><a href="{{ url_for('topics.add_message', topic_slug=topic.slug, thread_slug=thread.slug) }}" class="btn btn-info">Add new message</a>
 {% endblock %}

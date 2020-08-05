@@ -76,8 +76,11 @@ def show_thread(topic_slug, thread_slug):
     if thread.secret_users and (current_user not in thread.secret_users):
         abort(404)
 
-    topic = Topic.query.filter(Topic.slug==topic_slug).first()
-    return render_template("topics/show_thread.html", thread=thread, topic=topic)
+    topic = Topic.query.filter(Topic.slug == topic_slug).first()
+    page = request.args.get('page', 1, type=int)
+    messages = Message.query.filter(Message.thread_id == thread.id).paginate(page=page, per_page=5)
+
+    return render_template("topics/show_thread.html", thread=thread, topic=topic, messages=messages)
 
 @topics.route("/")
 def index():
