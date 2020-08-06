@@ -13,7 +13,7 @@ class Message(db.Model):
 
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
-        self.slug = create_slug(title=None, type=type(self).__name__)
+        self.slug = create_slug(title=self.body, type=type(self).__name__)
 
     def __repr__(self):
         return f'<Message: {self.id}>'

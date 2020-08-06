@@ -1,10 +1,14 @@
 import re
-from random import randint
+from string import ascii_letters, digits
+from random import choice
 
 def create_slug(title, type):
     if type == 'Message':
-        return 'msg#' + str(randint(1, 100))
+        if title:
+            return title[:3] + ''.join([choice(ascii_letters + digits) for i in range(8)])
+        else:
+            return ''.join([choice(ascii_letters + digits) for i in range(11)])
     elif type == 'Thread':
-        return re.sub(r'[^\w+]', '-', title) + '.' + str(randint(1, 100))
+        return re.sub(r'[^\w+]', '-', title) + '.' + ''.join([choice(ascii_letters + digits) for i in range(3)])
     elif type == 'Topic':
         return re.sub(r'[^\w+]', '-', title)

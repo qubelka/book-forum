@@ -30,7 +30,7 @@ class AdminView(ModelView):
                         model.secret_users.append(current_user)
 
             else:
-                model.slug = create_slug(title=None, type='Message')
+                model.slug = create_slug(title=model.body, type='Message')
 
             if hasattr(model, 'creator_id'):
                 admin = User.query.filter(User.username == 'admin').first()
