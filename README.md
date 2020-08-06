@@ -4,6 +4,11 @@ Book Forum on Heroku:
 
 [Heroku link](https://fast-ravine-81652.herokuapp.com/)
 
+### Project status
+
+All the features defined during the first week have been implemented. 
+More precise description of each feature can be found below in the section [How to use?](#how-to-use)
+
 ### Intro
 
 Book forum is a web application which has the basic forum functionality: there are some predefined
@@ -120,8 +125,8 @@ You should be redirected to the flask-admin view with all the tables from the da
 User, Role, Topic, Thread, Message. To return back to the main page click "Back to book forum main page"
 on the right side of the navigation bar. To modify the database tables click on the specific table.   
 
-Pen icon is used for editing the record and bin icon for deleting the record. Deleting a user
-means deactivating him (please read the [deletion](#deletion) section for more information about deleting 
+Eye icon is used for viewing the record, pen icon is used for editing the record and bin icon for deleting the record. 
+Deleting a user means deactivating him (please read the [deletion](#deletion) section for more information about deleting 
 items from the database). Admin view is accessible for any user with admin role, so you can create more admin
 users via admin view. **However, if you remove all the admin users from the database or the admin role,
 you will not be able to access the admin view from Heroku anymore, because the admin role is added to the admin

@@ -13,6 +13,9 @@ def active_users_excluding_admin():
     return User.query.filter(and_(User.active == True, User.id != current_user.id))
 
 class AdminView(ModelView):
+    column_display_pk = True
+    can_view_details = True
+
     def is_accessible(self):
         return current_user.has_role('admin')
 
