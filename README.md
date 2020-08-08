@@ -9,6 +9,21 @@ Book Forum on Heroku:
 All the features defined during the first week have been implemented. 
 More precise description of each feature can be found below in the section [How to use?](#how-to-use)
 
+### Problems
+
+* typing in url `/success/registration` shows a message about
+successful registration -> should rewrite built-in flask-login registration function 
+* search doesn't show the correct error message if all the found elements
+are secret -> should do something with if-checks
+* pagination for threads is missing
+* there is no error message which would specify the situation when app is trying 
+to add to the database two messages with the same slug (duplicates in  message slugs are highly unlikely because now the slug 
+is created based on the first 3 characters of the message + random string of 8 characters
+including capital letters, small letters and numbers. However, empty messages are allowed, 
+and in case of an empty message the slug is formed from 11 character long random 
+string. Get the same 11 characters is highly unlikely, but not impossible, so this should be resolved somehow, e.g.
+set the min length for messages?) 
+
 ### Intro
 
 Book forum is a web application which has the basic forum functionality: there are some predefined
