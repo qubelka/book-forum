@@ -16,6 +16,7 @@ successful registration -> should rewrite built-in flask-login registration func
 * search doesn't show the correct error message if all the found elements
 are secret -> should do something with if-checks
 * pagination for threads is missing
+* after adding a msg, redirect to the same page where the msg was added, not on the first page of the thread like now 
 * there is no error message which would specify the situation when app is trying 
 to add to the database two messages with the same slug (duplicates in  message slugs are highly unlikely because now the slug 
 is created based on the first 3 characters of the message + random string of 8 characters
