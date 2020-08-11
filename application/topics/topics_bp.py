@@ -45,19 +45,20 @@ def add_thread(topic_slug):
 
     return render_template('topics/new_thread.html', form=form, topic_slug=topic_slug)
 
-@topics.route('/<topic_slug>/<thread_slug>/add_message', methods=['GET', 'POST'])
-@login_required
-def add_message(topic_slug, thread_slug):
+@topics.route('/<topic_slug>/<thread_slug>', methods=['GET', 'POST'])
+def show_thread(topic_slug, thread_slug):
     thread = Thread.query.filter(Thread.slug == thread_slug).first()
 
     if thread.secret_users and (current_user not in thread.secret_users):
         abort(404)
 
     form = MsgForm()
+    topic = Topic.query.filter(Topic.slug == topic_slug).first()
+    page = request.args.get('page', 1, type=int)
+    messages = Message.query.filter(Message.thread_id == thread.id).paginate(page=page, per_page=5)
 
     if form.validate_on_submit():
         body = form.body.data
-
         try:
             message = Message(body=body, thread_id=thread.id, creator_id=current_user.id)
             db.session.add(message)
@@ -65,22 +66,10 @@ def add_message(topic_slug, thread_slug):
         except:
             flash('Something went wrong while trying to add the object to the database. Please try again later.', category='warning')
 
-        return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
+        updated_message_list = Message.query.filter(Message.thread_id == thread.id).paginate(page=page, per_page=5)
+        return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug, page=updated_message_list.pages))
 
-    return render_template('topics/new_message.html', form=form, topic_slug=topic_slug, thread_slug=thread_slug)
-
-@topics.route('/<topic_slug>/<thread_slug>')
-def show_thread(topic_slug, thread_slug):
-    thread = Thread.query.filter(Thread.slug == thread_slug).first()
-
-    if thread.secret_users and (current_user not in thread.secret_users):
-        abort(404)
-
-    topic = Topic.query.filter(Topic.slug == topic_slug).first()
-    page = request.args.get('page', 1, type=int)
-    messages = Message.query.filter(Message.thread_id == thread.id).paginate(page=page, per_page=5)
-
-    return render_template('topics/show_thread.html', thread=thread, topic=topic, messages=messages)
+    return render_template('topics/show_thread.html', thread=thread, topic=topic, messages=messages, form=form)
 
 @topics.route('/')
 def index():

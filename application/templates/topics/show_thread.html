@@ -20,7 +20,7 @@
         {% for msg in messages.items %}
         <tr>
             <th scope='row' rowspan='2'>{{ msg.creator.username }}</th>
-            <td scope='col' colspan='3'><small>{{ msg.modified.strftime('%b %-d, %Y at %-H:%-M %p') }}</small></td>
+            <td scope='col' colspan='3'><small>{{ msg.modified.strftime('%b %-d, %Y at %H:%M %p') }}</small></td>
         </tr>
         <tr>
             <td class='border-top-0 lead'>{{ msg.body }}</td>
@@ -77,5 +77,30 @@
         </nav>
     {% endif %}
 
-    <br><a href="{{ url_for('topics.add_message', topic_slug=topic.slug, thread_slug=thread.slug, page=messages.page) }}" class='btn btn-info'>Add new message</a>
+    <br>
+    <button class='btn btn-info' type='button' data-toggle='collapse' data-target='#collapseForm' aria-expanded='false' aria-controls='collapseForm'>
+        Add new message
+    </button>
+
+    <form method='POST' class='collapse' id='collapseForm'>
+        <div class='form-group'>
+            {{ form.hidden_tag() }}
+
+            {{ form.body.label(class='control-label') }}
+            {{ form.body(class='form-control') }}
+
+            <span class='error'>
+                {% if form.body.errors %}
+                    {% for error in form.body.errors %}
+                        <div class='alert alert-primary'>{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </span>
+
+        </div>
+
+        <button type='submit' class='btn btn-info'>Send</button>
+    </form>
+
+
 {% endblock %}
