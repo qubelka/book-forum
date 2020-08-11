@@ -11,7 +11,7 @@
 {% block content %}
     {% if topics_list %}
         {% for topic in topics_list %}
-            <a href="{{ url_for('topics.topic_page', topic_slug=topic.slug) }}" class="btn btn-outline-info btn-lg btn-block" role="button" aria-pressed="true">{{ topic.name }}</a>
+            <a href="{{ url_for('topics.topic_page', topic_slug=topic.slug) }}" class='btn btn-outline-info btn-lg btn-block' role='button' aria-pressed='true'>{{ topic.name }}</a>
         {% endfor %}
     {% else %}
         You haven't created any topics yet.

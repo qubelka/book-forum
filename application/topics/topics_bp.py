@@ -10,7 +10,7 @@ from .. import db
 
 topics = Blueprint('topics', __name__)
 
-@topics.route("/<topic_slug>/add_thread", methods=["GET", "POST"])
+@topics.route('/<topic_slug>/add_thread', methods=['GET', 'POST'])
 @login_required
 def add_thread(topic_slug):
     form = ThreadForm()
@@ -22,7 +22,7 @@ def add_thread(topic_slug):
         secret_thread_users = []
         secret_thread_user_objects = []
 
-        if form.checkbox.data == True:
+        if form.checkbox.data:
             secret_thread_users = request.form.getlist('secret_thread_users')
             if secret_thread_users:
                 for id in secret_thread_users:
@@ -33,7 +33,7 @@ def add_thread(topic_slug):
 
         try:
             thread = Thread(name=name, topic_id=topic.id, creator_id=current_user.id)
-            if form.checkbox.data == True:
+            if form.checkbox.data:
                 thread.secret_users.extend(secret_thread_user_objects)
             db.session.add(thread)
             db.session.commit()
@@ -43,9 +43,9 @@ def add_thread(topic_slug):
 
         return redirect(url_for('topics.topic_page', topic_slug=topic_slug))
 
-    return render_template("topics/new_thread.html", form=form, topic_slug=topic_slug)
+    return render_template('topics/new_thread.html', form=form, topic_slug=topic_slug)
 
-@topics.route("/<topic_slug>/<thread_slug>/add_message", methods=["GET", "POST"])
+@topics.route('/<topic_slug>/<thread_slug>/add_message', methods=['GET', 'POST'])
 @login_required
 def add_message(topic_slug, thread_slug):
     thread = Thread.query.filter(Thread.slug == thread_slug).first()
@@ -67,9 +67,9 @@ def add_message(topic_slug, thread_slug):
 
         return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
 
-    return render_template("topics/new_message.html", form=form, topic_slug=topic_slug, thread_slug=thread_slug)
+    return render_template('topics/new_message.html', form=form, topic_slug=topic_slug, thread_slug=thread_slug)
 
-@topics.route("/<topic_slug>/<thread_slug>")
+@topics.route('/<topic_slug>/<thread_slug>')
 def show_thread(topic_slug, thread_slug):
     thread = Thread.query.filter(Thread.slug == thread_slug).first()
 
@@ -80,50 +80,50 @@ def show_thread(topic_slug, thread_slug):
     page = request.args.get('page', 1, type=int)
     messages = Message.query.filter(Message.thread_id == thread.id).paginate(page=page, per_page=5)
 
-    return render_template("topics/show_thread.html", thread=thread, topic=topic, messages=messages)
+    return render_template('topics/show_thread.html', thread=thread, topic=topic, messages=messages)
 
-@topics.route("/")
+@topics.route('/')
 def index():
-    return render_template("index.html")
+    return render_template('index.html')
 
-@topics.route("/<topic_slug>")
+@topics.route('/<topic_slug>')
 def topic_page(topic_slug):
     topic_obj = Topic.query.filter(Topic.slug == topic_slug).first()
 
     if not topic_obj:
         flash(f'Topic \'{topic_slug}\' does not exist.', category='warning')
-        return redirect(url_for("index"))
+        return redirect(url_for('index'))
 
-    return render_template("topics/topic.html", topic=topic_obj)
+    return render_template('topics/topic.html', topic=topic_obj)
 
-@topics.route("/<topic_slug>/<thread_slug>/<msg_slug>/delete", methods=["GET", "POST"])
+@topics.route('/<topic_slug>/<thread_slug>/<msg_slug>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_msg(topic_slug, thread_slug, msg_slug):
     msg = Message.query.filter(Message.slug == msg_slug)
 
-    if not current_user.id == msg[0].creator_id:
+    if current_user.id != msg[0].creator_id:
         abort(404)
 
-    if request.method == "GET":
-        return render_template("topics/delete_message.html", topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
+    if request.method == 'GET':
+        return render_template('topics/delete_message.html', topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
 
     msg.delete()
     db.session.commit()
     flash('The message has been successfully deleted.', category='success')
     return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
 
-@topics.route("/<topic_slug>/<thread_slug>/<msg_slug>/edit", methods=["GET", "POST"])
+@topics.route('/<topic_slug>/<thread_slug>/<msg_slug>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_msg(topic_slug, thread_slug, msg_slug):
     msg = Message.query.filter(Message.slug==msg_slug).first()
 
-    if not current_user.id == msg.creator_id:
+    if current_user.id != msg.creator_id:
         abort(404)
 
-    if request.method == "GET":
+    if request.method == 'GET':
         form = MsgForm(obj=msg)
 
-        return render_template("topics/edit_message.html", form=form, topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
+        return render_template('topics/edit_message.html', form=form, topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
 
     form = MsgForm(formdata=request.form, obj=msg)
     form.populate_obj(msg)

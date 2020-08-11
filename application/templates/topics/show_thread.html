@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/">Topics</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('topics.topic_page', topic_slug=topic.slug) }}">{{topic.name}}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{thread.name}}</li>
+    <li class='breadcrumb-item'><a href='/'>Topics</a></li>
+    <li class='breadcrumb-item'><a href="{{ url_for('topics.topic_page', topic_slug=topic.slug) }}">{{topic.name}}</a></li>
+    <li class='breadcrumb-item active' aria-current='page'>{{thread.name}}</li>
 {% endblock %}
 
 {% block title %}
@@ -15,19 +15,19 @@
 {% endblock %}
 
 {% block content %}
-    <table class="table">
+    <table class='table'>
         <tbody>
         {% for msg in messages.items %}
         <tr>
-            <th scope="row" rowspan="2">{{ msg.creator.username }}</th>
-            <td scope="col" colspan="3"><small>{{ msg.modified.strftime("%b %-d, %Y at %-H:%-M %p") }}</small></td>
+            <th scope='row' rowspan='2'>{{ msg.creator.username }}</th>
+            <td scope='col' colspan='3'><small>{{ msg.modified.strftime('%b %-d, %Y at %-H:%-M %p') }}</small></td>
         </tr>
         <tr>
-            <td class="border-top-0 lead">{{ msg.body }}</td>
+            <td class='border-top-0 lead'>{{ msg.body }}</td>
             {% if current_user.id == msg.creator_id %}
-            <td class="border-top-0">
-                <a href="{{ url_for('topics.edit_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class="btn btn-warning">edit</a>
-                <a href="{{ url_for('topics.delete_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class="btn btn-danger">delete</a>
+            <td class='border-top-0'>
+                <a href="{{ url_for('topics.edit_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class='btn btn-warning'>edit</a>
+                <a href="{{ url_for('topics.delete_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class='btn btn-danger'>delete</a>
             </td>
             {% endif %}
         </tr>
@@ -36,46 +36,46 @@
     </table>
 
     {% if messages.items %}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
+        <nav aria-label='Page navigation example'>
+            <ul class='pagination'>
                 <li
                        {% if not messages.has_prev %}
-                           class="page-item disabled"
+                           class='page-item disabled'
                        {% else %}
-                           class="page-item"
+                           class='page-item'
                        {% endif %}
                 >
-                    <a class="page-link" href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug, page=messages.prev_num) }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
+                    <a class='page-link' href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug, page=messages.prev_num) }}" aria-label='Previous'>
+                        <span aria-hidden='true'>&laquo;</span>
+                        <span class='sr-only'>Previous</span>
                     </a>
                 </li>
                 {% for page in messages.iter_pages() %}
                     <li
                            {% if page == messages.page %}
-                               class="page-item active"
+                               class='page-item active'
                            {% else %}
-                               class="page-item"
+                               class='page-item'
                            {% endif %}
                     >
-                        <a class="page-link" href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug, page=page) }}">{{ page }}</a>
+                        <a class='page-link' href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug, page=page) }}">{{ page }}</a>
                     </li>
                 {% endfor %}
                 <li
                        {% if not messages.has_next %}
-                           class="page-item disabled"
+                           class='page-item disabled'
                        {% else %}
-                           class="page-item"
+                           class='page-item'
                        {% endif %}
                 >
-                    <a class="page-link" href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug, page=messages.next_num) }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
+                    <a class='page-link' href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug, page=messages.next_num) }}" aria-label='Next'>
+                        <span aria-hidden='true'>&raquo;</span>
+                        <span class='sr-only'>Next</span>
                     </a>
                 </li>
             </ul>
         </nav>
     {% endif %}
 
-    <br><a href="{{ url_for('topics.add_message', topic_slug=topic.slug, thread_slug=thread.slug, page=messages.page) }}" class="btn btn-info">Add new message</a>
+    <br><a href="{{ url_for('topics.add_message', topic_slug=topic.slug, thread_slug=thread.slug, page=messages.page) }}" class='btn btn-info'>Add new message</a>
 {% endblock %}

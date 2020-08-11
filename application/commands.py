@@ -4,7 +4,7 @@ from flask_security.utils import hash_password
 from application import db, user_datastore
 from application.topics.models import Topic
 
-@click.command(name="create_db")
+@click.command(name='create_db')
 @with_appcontext
 def create_db():
     db.drop_all()
