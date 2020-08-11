@@ -78,29 +78,30 @@
     {% endif %}
 
     <br>
-    <button class='btn btn-info' type='button' data-toggle='collapse' data-target='#collapseForm' aria-expanded='false' aria-controls='collapseForm'>
-        Add new message
-    </button>
+    {% if current_user.is_authenticated %}
+        <button class='btn btn-info' type='button' data-toggle='collapse' data-target='#collapseForm' aria-expanded='false' aria-controls='collapseForm'>
+            Add new message
+        </button>
 
-    <form method='POST' class='collapse' id='collapseForm'>
-        <div class='form-group'>
-            {{ form.hidden_tag() }}
+        <form method='POST' class='collapse' id='collapseForm'>
+            <div class='form-group'>
+                {{ form.hidden_tag() }}
 
-            {{ form.body.label(class='control-label') }}
-            {{ form.body(class='form-control') }}
+                {{ form.body.label(class='control-label') }}
+                {{ form.body(class='form-control') }}
 
-            <span class='error'>
-                {% if form.body.errors %}
-                    {% for error in form.body.errors %}
-                        <div class='alert alert-primary'>{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </span>
+                <span class='error'>
+                    {% if form.body.errors %}
+                        {% for error in form.body.errors %}
+                            <div class='alert alert-primary'>{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </span>
 
-        </div>
+            </div>
 
-        <button type='submit' class='btn btn-info'>Send</button>
-    </form>
-
+            <button type='submit' class='btn btn-info'>Send</button>
+        </form>
+    {% endif %}
 
 {% endblock %}
