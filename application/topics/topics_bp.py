@@ -13,12 +13,15 @@ topics = Blueprint('topics', __name__)
 @topics.route('/<topic_slug>/add_thread', methods=['GET', 'POST'])
 @login_required
 def add_thread(topic_slug):
+    topic = Topic.query.filter(Topic.slug == topic_slug).first()
+    if not topic:
+        abort(404)
+
     form = ThreadForm()
     form.users.choices = [(user.id, user.username) for user in User.query.filter(and_(User.active == True, User.id != current_user.id)).all()]
 
     if form.validate_on_submit():
         name = form.name.data
-        topic = Topic.query.filter(Topic.slug == topic_slug).first()
         secret_thread_users = []
         secret_thread_user_objects = []
 
@@ -48,12 +51,15 @@ def add_thread(topic_slug):
 @topics.route('/<topic_slug>/<thread_slug>', methods=['GET', 'POST'])
 def show_thread(topic_slug, thread_slug):
     thread = Thread.query.filter(Thread.slug == thread_slug).first()
+    topic = Topic.query.filter(Topic.slug == topic_slug).first()
 
-    if thread.secret_users and (current_user not in thread.secret_users):
+    if thread and topic:
+        if thread.secret_users and (current_user not in thread.secret_users):
+            abort(404)
+    else:
         abort(404)
 
     form = MsgForm()
-    topic = Topic.query.filter(Topic.slug == topic_slug).first()
     page = request.args.get('page', 1, type=int)
     messages = Message.query.filter(Message.thread_id == thread.id).paginate(page=page, per_page=5)
 
@@ -88,25 +94,42 @@ def topic_page(topic_slug):
 @topics.route('/<topic_slug>/<thread_slug>/<msg_slug>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_msg(topic_slug, thread_slug, msg_slug):
+    topic = Topic.query.filter(Topic.slug == topic_slug).first()
+    thread = Thread.query.filter(Thread.slug == thread_slug).first()
     msg = Message.query.filter(Message.slug == msg_slug)
 
-    if current_user.id != msg[0].creator_id:
+    if topic and thread and msg.first():
+        if current_user.id != msg[0].creator_id:
+            abort(404)
+    else:
         abort(404)
 
+    page = request.args.get('page', 1, type=int)
     if request.method == 'GET':
-        return render_template('topics/delete_message.html', topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
+        return render_template('topics/delete_message.html', topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug, page=page)
 
     msg.delete()
     db.session.commit()
     flash('The message has been successfully deleted.', category='success')
-    return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
+
+    updated_message_list = Message.query.filter(Message.thread_id == thread.id).paginate(page=1, per_page=5)
+
+    if page > updated_message_list.pages:
+        page = updated_message_list.pages
+
+    return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug, page=page))
 
 @topics.route('/<topic_slug>/<thread_slug>/<msg_slug>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_msg(topic_slug, thread_slug, msg_slug):
+    topic = Topic.query.filter(Topic.slug == topic_slug).first()
+    thread = Thread.query.filter(Thread.slug == thread_slug).first()
     msg = Message.query.filter(Message.slug==msg_slug).first()
 
-    if current_user.id != msg.creator_id:
+    if topic and thread and msg:
+        if current_user.id != msg.creator_id:
+            abort(404)
+    else:
         abort(404)
 
     if request.method == 'GET':
@@ -118,4 +141,6 @@ def edit_msg(topic_slug, thread_slug, msg_slug):
     form.populate_obj(msg)
     db.session.commit()
     flash('The message has been successfully edited.', category='success')
-    return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug))
+
+    updated_message_list = Message.query.filter(Message.thread_id == thread.id).paginate(page=1, per_page=5)
+    return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug, page=updated_message_list.pages))

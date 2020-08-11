@@ -27,7 +27,7 @@
             {% if current_user.id == msg.creator_id %}
             <td class='border-top-0'>
                 <a href="{{ url_for('topics.edit_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class='btn btn-warning'>edit</a>
-                <a href="{{ url_for('topics.delete_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class='btn btn-danger'>delete</a>
+                <a href="{{ url_for('topics.delete_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug, page=messages.page) }}" class='btn btn-danger'>delete</a>
             </td>
             {% endif %}
         </tr>
