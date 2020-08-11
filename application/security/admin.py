@@ -1,5 +1,5 @@
 from sqlalchemy import and_
-from flask import redirect, url_for, flash, Markup
+from flask import redirect, url_for, flash
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
 from flask_security import current_user
@@ -61,12 +61,9 @@ class CustomAdminIndexView(AdminIndexView):
         return redirect(url_for('index'))
 
 class UserCustomView(AdminView, ModelView):
-    def password_formatter(view, context, model, name):
-        show_password_as_tooltip = f"<span title='{model.password}'>{model.password[:40]}</span>"
-        return Markup(show_password_as_tooltip)
-
-    column_formatters = { 'password': password_formatter }
-    form_columns = ['roles', 'email', 'password', 'username']
+    form_columns = ['roles', 'email', 'username']
+    column_exclude_list = ('password')
+    column_details_exclude_list = ('password')
 
 class ThreadCustomView(AdminView, ModelView):
     form_columns = ['name', 'topic', 'secret_users']
