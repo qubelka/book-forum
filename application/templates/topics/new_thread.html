@@ -11,28 +11,33 @@
 {% block content %}
     <form action="{{ url_for('topics.add_thread', topic_slug=topic_slug) }}" method='POST'>
         <div class='form-group'>
-            {{ form.hidden_tag() }}
-            {{ form.name.label(class='control-label') }}
-            {{ form.name(class='form-control') }}
-            {{ form.checkbox(onchange='show_form()') }}
-            {{ form.checkbox.label(class='control-label') }}
+            {{ thread_form.hidden_tag() }}
+            {{ thread_form.name.label(class='control-label') }}
+            {{ thread_form.name(class='form-control') }}
+            {{ msg_form.hidden_tag() }}
+            {{ msg_form.body.label(class='control-label') }}
+            {{ msg_form.body(class='form-control') }}
+            {{ thread_form.checkbox(onchange='show_form()') }}
+            {{ thread_form.checkbox.label(class='control-label') }}
             <div class='secret_thread_form' style='display: none'>
                 Please choose users who, besides you, will be able to see the secret thread and the messages associated with it:<br>
                 <select class='selectpicker' data-live-search='true' name='secret_thread_users' data-size='5' multiple>
-                    {% for choice in form.users.choices %}
+                    {% for choice in thread_form.users.choices %}
                         <option value='{{ choice[0] }}'>{{ choice[1] }}</option>
                     {% endfor %}
                 </select>
             </div>
         </div>
 
-        <span class='error'>
-            {% if form.name.errors %}
-                {% for error in form.name.errors %}
-                    <div class='alert alert-primary'>{{ error }}</div>
-                {% endfor %}
-            {% endif %}
-        </span>
+        {% for item in [thread_form.name, msg_form.body] %}
+            <span class='error'>
+                {% if item.errors %}
+                    {% for error in item.errors %}
+                        <div class='alert alert-primary'>{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </span>
+        {% endfor %}
 
         <button type='submit' class='btn btn-info'>Create discussion</button>
     </form>

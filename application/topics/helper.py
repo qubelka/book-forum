@@ -5,7 +5,7 @@ from random import choice
 def create_slug(title, type):
     if type == 'Message':
         if title:
-            return title[:3] + ''.join([choice(ascii_letters + digits) for i in range(8)])
+            return re.sub(r'[^\w+]', '-', title[:3]) + ''.join([choice(ascii_letters + digits) for i in range(8)])
         else:
             return ''.join([choice(ascii_letters + digits) for i in range(11)])
     elif type == 'Thread':

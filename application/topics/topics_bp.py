@@ -17,15 +17,17 @@ def add_thread(topic_slug):
     if not topic:
         abort(404)
 
-    form = ThreadForm()
-    form.users.choices = [(user.id, user.username) for user in User.query.filter(and_(User.active == True, User.id != current_user.id)).all()]
+    thread_form = ThreadForm()
+    thread_form.users.choices = [(user.id, user.username) for user in User.query.filter(and_(User.active == True, User.id != current_user.id)).all()]
+    msg_form = MsgForm()
 
-    if form.validate_on_submit():
-        name = form.name.data
+    if thread_form.validate_on_submit() and msg_form.validate_on_submit():
+        name = thread_form.name.data
+        body = msg_form.body.data
         secret_thread_users = []
         secret_thread_user_objects = []
 
-        if form.checkbox.data:
+        if thread_form.checkbox.data:
             secret_thread_users = request.form.getlist('secret_thread_users')
             if secret_thread_users:
                 for id in secret_thread_users:
@@ -34,19 +36,22 @@ def add_thread(topic_slug):
 
             secret_thread_user_objects.append(current_user)
 
+        thread = Thread(name=name, topic_id=topic.id, creator_id=current_user.id)
+
         try:
-            thread = Thread(name=name, topic_id=topic.id, creator_id=current_user.id)
-            if form.checkbox.data:
+            if thread_form.checkbox.data:
                 thread.secret_users.extend(secret_thread_user_objects)
             db.session.add(thread)
+            db.session.flush()
+            message = Message(body=body, thread_id=thread.id, creator_id=current_user.id)
+            db.session.add(message)
             db.session.commit()
-
         except:
             flash('Something went wrong while trying to add the object to the database. Please try again later.', category='warning')
 
-        return redirect(url_for('topics.topic_page', topic_slug=topic_slug))
+        return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread.slug))
 
-    return render_template('topics/new_thread.html', form=form, topic_slug=topic_slug)
+    return render_template('topics/new_thread.html', thread_form=thread_form, msg_form=msg_form, topic_slug=topic_slug)
 
 @topics.route('/<topic_slug>/<thread_slug>', methods=['GET', 'POST'])
 def show_thread(topic_slug, thread_slug):
