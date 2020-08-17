@@ -1,4 +1,5 @@
 from flask import render_template, flash, redirect, request
+from sqlalchemy import and_
 from application import app
 from application.topics.models import Thread, Message, Topic
 

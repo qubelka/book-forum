@@ -35,3 +35,19 @@ from application import routes
 from application.commands import create_db
 
 app.cli.add_command(create_db)
+
+def get_not_secret_messages(topic_name):
+    message_list = Message.query.join(Thread).join(Topic).\
+        filter(and_(~Thread.secret_users.any(), Topic.name == topic_name))
+    return message_list
+
+def get_latest_msg(topic_name):
+    latest_msg = Message.query.join(Thread).join(Topic).\
+        filter(and_(~Thread.secret_users.any(), Topic.name == topic_name)).order_by(Message.modified.desc()).first()
+    return latest_msg
+
+def get_not_secret_threads(topic_name):
+    thread_list = Thread.query.join(Topic).filter(and_(~Thread.secret_users.any(), Topic.name == topic_name))
+    return thread_list
+
+app.jinja_env.globals.update(get_not_secret_messages=get_not_secret_messages, get_latest_msg=get_latest_msg, get_not_secret_threads=get_not_secret_threads)

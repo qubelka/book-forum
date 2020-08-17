@@ -14,16 +14,39 @@
 {% endblock %}
 
 {% block content %}
+    <div class='row'>
+        <br><a href="{{ url_for('topics.add_thread', topic_slug=topic.slug) }}" class='btn btn-info btn-sm'>New discussion</a>
+    </div>
+
+    <div class='row bg-info text-white p-3 my-3'>
+        <div class='col-1'>Icon</div>
+        <div class='col-5'>Thread name</div>
+        <div class='col-2'>Author</div>
+        <div class='col-2'>Posts</div>
+        <div class='col-2'>Latest post</div>
+    </div>
+
 
     {% for thread in topic.threads %}
-        <div class='list-group'>
-            {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
-                <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}" class='list-group-item list-group-item-action list-group-item-info'>{{ thread.name }}</a>
-            {% endif %}
-        </div>
+        {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
+            <div class='row bg-light text-info p-3 border'>
+                <div class='col-1'>xx</div>
+                <div class='col-5'>
+                    <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}">{{ thread.name }}</a>
+                </div>
+                <div class='col-2'>{{ thread.creator.username }}</div>
+                <div class='col-2'>{{ thread.messages | length }}</div>
+                <div class='col-2'>
+                    {% set msg_list = thread.messages | sort(attribute='modified', reverse=True) %}
+                    {% if msg_list %}
+                        {{ msg_list[0].modified.strftime('%b %-d, %Y at %H:%M %p') }}
+                        <span style='color:black;'>{{ msg_list[0].creator.username }}</span>
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
     {% endfor %}
-
-
-<br><a href="{{ url_for('topics.add_thread', topic_slug=topic.slug) }}" class='btn btn-info'>Add new discussion</a>
 
 {% endblock %}

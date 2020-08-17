@@ -119,7 +119,7 @@ def delete_msg(topic_slug, thread_slug, msg_slug):
 
     updated_message_list = Message.query.filter(Message.thread_id == thread.id).paginate(page=1, per_page=5)
 
-    if page > updated_message_list.pages:
+    if (page > updated_message_list.pages) and (updated_message_list.pages != 0):
         page = updated_message_list.pages
 
     return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug, page=page))

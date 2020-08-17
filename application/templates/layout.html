@@ -71,23 +71,31 @@
         {% endif %}
         {%- endwith %}
 
-        <div class='col-md-6 offset-md-3'>
-            <nav aria-label='breadcrumb'>
-                <ol class='breadcrumb' style='background-color: #fff;'>
-                    {% block breadcrumb %}
+        <div class='container'>
+            <div class='row'>
+                <div class='col-9'>
+                    <div class='row'>
+                        <nav aria-label='breadcrumb'>
+                            <ol class='breadcrumb' style='background-color: #fff;'>
+                                {% block breadcrumb %}
+                                {% endblock %}
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <div class='row'>
+                        <h3>
+                            {% block content_title %}
+                            {% endblock %}
+                        </h3>
+                    </div>
+
+
+                    {% block content %}
                     {% endblock %}
-                </ol>
-            </nav>
 
-            <h1>
-                {% block content_title %}
-                {% endblock %}
-            </h1>
-
-            <p style='font-size:18px;'>
-                {% block content %}
-                {% endblock %}
-            </p>
+                </div>
+            </div>
         </div>
 
         <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
