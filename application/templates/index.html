@@ -34,7 +34,9 @@
                         {% set latest = get_latest_msg(topic_name=topic.name) %}
                         {% if latest %}
                             {{ latest.modified.strftime('%b %-d, %Y at %H:%M %p') }}
-                        <span style='color:black;'>{{ latest.creator.username }}</span>
+                            <span style='color:black;'>{{ latest.creator.username }}</span>
+                        {% else %}
+                            -
                         {% endif %}
                     </div>
                 </div>

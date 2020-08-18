@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, request
-from sqlalchemy import and_
+from flask_security.views import register as flask_register
 from application import app
 from application.topics.models import Thread, Message, Topic
 
@@ -20,10 +20,13 @@ def result():
 
     return redirect('/')
 
-@app.route('/success/registration')
-def success():
-    flash('You have been successfully registered.', category='success')
-    return redirect('/result')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    result = flask_register()
+    if request.method == 'POST' and type(result).__name__ == 'Response':
+        flash('You have been successfully registered.', category='success')
+
+    return result
 
 @app.errorhandler(404)
 def error404(error):
