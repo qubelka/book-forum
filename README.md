@@ -33,7 +33,7 @@ Peer review:
 the user will receive no feedback unless the user then clicks "Add new message" again. --> now 'add message' 
 field should not collapse when errors occur
 
-- [ ] It could be nice to have a separate button for returning to the topic view from the /add_thread page.
+- [x] It could be nice to have a separate button for returning to the topic view from the /add_thread page.
 
 - [ ] A useful feature might be the option to also delete threads
 - [ ] It is now possible to register a user "admin " whose message might be confused with the the messages by the real admin. 
