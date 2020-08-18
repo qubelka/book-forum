@@ -26,8 +26,8 @@
             <td class='border-top-0 lead'>{{ msg.body }}</td>
             {% if current_user.id == msg.creator_id %}
             <td class='border-top-0'>
-                <a href="{{ url_for('topics.edit_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class='btn btn-warning'>edit</a>
-                <a href="{{ url_for('topics.delete_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug, page=messages.page) }}" class='btn btn-danger'>delete</a>
+                <a href="{{ url_for('topics.edit_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug) }}" class='btn btn-warning btn-sm'>edit</a>
+                <a href="{{ url_for('topics.delete_msg', topic_slug=topic.slug, thread_slug=thread.slug, msg_slug=msg.slug, page=messages.page) }}" class='btn btn-danger btn-sm'>delete</a>
             </td>
             {% endif %}
         </tr>
@@ -76,47 +76,46 @@
             </ul>
         </nav>
     {% endif %}
-
     <br>
     {% if current_user.is_authenticated %}
-    <div class='row'>
-        <div class='col'>
-            <button class='btn btn-info' type='button' data-toggle='collapse' data-target='#collapseForm' aria-expanded='false' aria-controls='collapseForm'>
-                Add new message
-            </button>
-        </div>
-    </div>
-    <br>
-    <form method='POST'
-          {% if request.method=='POST' %}
-          class='collapse show'
-          {% else %}
-          class='collapse'
-          {% endif %}
-          id='collapseForm'>
         <div class='row'>
             <div class='col'>
-                <div class='form-group'>
-                    {{ form.hidden_tag() }}
-                    {{ form.body(class='form-control') }}
-                </div>
+                <button class='btn btn-info btn-sm' type='button' data-toggle='collapse' data-target='#collapseForm' aria-expanded='false' aria-controls='collapseForm'>
+                    Add new message
+                </button>
             </div>
         </div>
+        <br>
+        <form method='POST'
+              {% if request.method=='POST' %}
+              class='collapse show'
+              {% else %}
+              class='collapse'
+              {% endif %}
+              id='collapseForm'>
+            <div class='row'>
+                <div class='col'>
+                    <div class='form-group'>
+                        {{ form.hidden_tag() }}
+                        {{ form.body(class='form-control') }}
+                    </div>
+                </div>
+            </div>
 
-        <div class='row'>
-                <span class='error'>
-                    {% if form.body.errors %}
-                        {% for error in form.body.errors %}
-                            <div class='col'>
-                                <div class='alert alert-primary'>{{ error }}</div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </span>
-        </div>
+            <div class='row'>
+                    <span class='error'>
+                        {% if form.body.errors %}
+                            {% for error in form.body.errors %}
+                                <div class='col'>
+                                    <div class='alert alert-primary'>{{ error }}</div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </span>
+            </div>
 
-        <button type='submit' class='btn btn-info'>Send</button>
-    </form>
+            <button type='submit' class='btn btn-info btn-sm'>Submit</button>
+        </form>
     {% endif %}
 
 {% endblock %}
