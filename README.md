@@ -33,17 +33,18 @@ Peer review:
 the user will receive no feedback unless the user then clicks "Add new message" again. --> now 'add message' 
 field should not collapse when errors occur
 
-- [x] It could be nice to have a separate button for returning to the topic view from the /add_thread page.
+- [x] It could be nice to have a separate button for returning to the topic view from the /add_thread page. --> button added
 
-- [x] A useful feature might be the option to also delete threads
-- [ ] It is now possible to register a user "admin " whose message might be confused with the the messages by the real admin. 
-Maybe the characters allowed in the username should be restricted more?
+- [x] A useful feature might be the option to also delete threads --> delete option added
+- [x] It is now possible to register a user "admin " whose message might be confused with the the messages by the real admin. 
+Maybe the characters allowed in the username should be restricted more? --> username validation added
 - [x] Currently trying to register a user with an existing username (such as "admin") will cause Internal server error. 
-The same seems to happen with other violations of the column data restriction in the User class such as:
+The same seems to happen with other violations of the column data restriction in the User class such as: --> error messages added
 
 - [x] Too long username
 - [x] Too long password (This gives an error "Password must be at least 6 characters")
-- [x] Deleting a message from an empty Thread redirects the user to "?page=0" and causes "404 Page not found" error
+- [x] Deleting a message from an empty Thread redirects the user to "?page=0" and causes "404 Page not found" error 
+--> should now redirect to page 1
 
 ### Problems
 
