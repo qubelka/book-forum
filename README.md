@@ -12,8 +12,10 @@ More precise description of each feature can be found below in the section [How 
 ### Solved issues and other app improvements since 9.8.
 
 - [x] typing in url `/success/registration` shows a message about
-successful registration -> should rewrite built-in flask-login registration function 
-- [x] after adding a msg, redirect to the same page where the msg was added, not on the first page of the thread like now
+successful registration -> built-in flask-login registration function changed a bit
+- [x] after adding a msg, redirect to the same page where the msg was added, not on the first page of the thread like now --> done
+- [x] search doesn't show the correct error message if all the found elements
+are secret -> should work now
 
 Instructor:
 - [x] Typo: "Dicsussion Topics" --> removed
@@ -48,8 +50,6 @@ The same seems to happen with other violations of the column data restriction in
 
 ### Problems
 
-* search doesn't show the correct error message if all the found elements
-are secret -> should do something with if-checks
 * pagination for threads is missing
 * ~~there is no error message which would specify the situation when app is trying 
 to add to the database two messages with the same slug (duplicates in  message slugs are highly unlikely because now the slug 

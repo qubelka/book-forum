@@ -11,12 +11,14 @@
 {% block content %}
     <ul style='font-size:18px;'>
         <li>
-            <strong>Results in messages:</strong>
+            <strong>Results in messages:<br></strong>
+            {% set vars = {'only_secret_items': True} %}
             {% if result_msg %}
                 <table class='table'>
                     <tbody>
                     {% for msg in result_msg %}
                         {% if (not msg.thread.secret_users) or (current_user in msg.thread.secret_users) %}
+                            {% if vars.update({'only_secret_items': False}) %}{% endif %}
                             <tr>
                                 <th scope='row' rowspan='2'>{{ msg.creator.username }}</th>
                                 <td scope='col' colspan='3'><small>{{ msg.modified.strftime('%b %-d, %Y at %-H:%-M %p') }}</small></td>
@@ -29,19 +31,29 @@
                     </tbody>
                 </table>
             {% else %}
-                Nothing found on request '{{ query }}' in messages.
+                Nothing found on request <em>'{{ query }}'</em> in messages.
+            {% endif %}
+
+            {% if (result_msg and vars.only_secret_items) %}
+                Nothing found on request <em>'{{ query }}'</em> in messages.
             {% endif %}
         </li>
         <br>
         <li>
             <strong>Results in thread names:</strong><br>
+                {% set vars = {'only_secret_items': True} %}
                 {% if result_thread %}
                     {% for thread in result_thread %}
                         {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
+                            {% if vars.update({'only_secret_items': False}) %}{% endif %}
                             <a class='lead' href="{{ url_for('topics.topic_page', topic_slug=thread.topic.slug) }}">{{ thread.name }}</a><br>
                         {% endif %}
                     {% endfor %}
                 {% else %}
+                    Nothing found on request '<em>{{ query }}</em>' in threads.
+                {% endif %}
+            
+                {% if (result_thread and only_secret_items) %}
                     Nothing found on request '<em>{{ query }}</em>' in threads.
                 {% endif %}
         </li>
