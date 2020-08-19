@@ -8,7 +8,7 @@ class Message(db.Model):
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
-    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'), nullable=False)
+    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id', ondelete='cascade'), nullable=False)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, *args, **kwargs):
@@ -27,7 +27,7 @@ class Thread(db.Model):
         onupdate=db.func.current_timestamp())
     messages = db.relationship('Message', backref='thread', lazy=True, cascade='all,delete')
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    topic_id = db.Column(db.Integer, db.ForeignKey('topic.id'), nullable=False)
+    topic_id = db.Column(db.Integer, db.ForeignKey('topic.id', ondelete='cascade'), nullable=False)
 
     def __init__(self, *args, **kwargs):
         super(Thread, self).__init__(*args, **kwargs)

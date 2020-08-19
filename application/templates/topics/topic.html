@@ -19,18 +19,17 @@
     </div>
 
     <div class='row bg-info text-white p-3 my-3'>
-        <div class='col-1'>Icon</div>
         <div class='col-5'>Thread name</div>
         <div class='col-2'>Author</div>
         <div class='col-2'>Posts</div>
         <div class='col-2'>Latest post</div>
+        <div class='col-1'></div>
     </div>
 
 
     {% for thread in topic.threads %}
         {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
             <div class='row bg-light text-info p-3 border'>
-                <div class='col-1'>xx</div>
                 <div class='col-5'>
                     <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}">{{ thread.name }}</a>
                 </div>
@@ -45,6 +44,11 @@
                         -
                     {% endif %}
                 </div>
+                {% if current_user.id == thread.creator_id %}
+                    <div class='col-1'>
+                        <a href="{{ url_for('topics.delete_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}" class='btn btn-danger btn-sm'>delete</a>
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
     {% endfor %}

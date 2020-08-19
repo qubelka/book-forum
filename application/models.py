@@ -9,7 +9,7 @@ roles_users = db.Table('roles_users',
 
 secret_threads_users = db.Table('secret_threads_users',
                        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-                       db.Column('thread_id', db.Integer(), db.ForeignKey('thread.id'))
+                       db.Column('thread_id', db.Integer(), db.ForeignKey('thread.id', ondelete='cascade'))
 )
 
 class Role(db.Model, RoleMixin):

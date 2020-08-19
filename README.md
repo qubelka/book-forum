@@ -35,7 +35,7 @@ field should not collapse when errors occur
 
 - [x] It could be nice to have a separate button for returning to the topic view from the /add_thread page.
 
-- [ ] A useful feature might be the option to also delete threads
+- [x] A useful feature might be the option to also delete threads
 - [ ] It is now possible to register a user "admin " whose message might be confused with the the messages by the real admin. 
 Maybe the characters allowed in the username should be restricted more?
 - [x] Currently trying to register a user with an existing username (such as "admin") will cause Internal server error. 

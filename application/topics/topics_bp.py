@@ -104,7 +104,7 @@ def delete_msg(topic_slug, thread_slug, msg_slug):
     msg = Message.query.filter(Message.slug == msg_slug)
 
     if topic and thread and msg.first():
-        if current_user.id != msg[0].creator_id:
+        if current_user.id != msg.first().creator_id:
             abort(404)
     else:
         abort(404)
@@ -149,3 +149,24 @@ def edit_msg(topic_slug, thread_slug, msg_slug):
 
     updated_message_list = Message.query.filter(Message.thread_id == thread.id).paginate(page=1, per_page=5)
     return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug, page=updated_message_list.pages))
+
+@topics.route('/<topic_slug>/<thread_slug>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_thread(topic_slug, thread_slug):
+    topic = Topic.query.filter(Topic.slug == topic_slug).first()
+    thread = Thread.query.filter(Thread.slug == thread_slug)
+
+    if topic and thread.first():
+        if current_user.id != thread.first().creator_id:
+            abort(404)
+    else:
+        abort(404)
+
+    if request.method == 'GET':
+        return render_template('topics/delete_thread.html', topic_slug=topic_slug, thread_slug=thread_slug)
+
+    thread.delete()
+    db.session.commit()
+    flash('The thread and the associated messages have been successfully deleted.', category='success')
+
+    return redirect(url_for('topics.topic_page', topic_slug=topic_slug))
