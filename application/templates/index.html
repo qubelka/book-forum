@@ -11,7 +11,7 @@
 {% block content %}
     {% if topics_list %}
         <div class='row bg-info text-white p-3 my-3'>
-            <div class='col-1'>Icon</div>
+            <div class='col-1'>Type</div>
             <div class='col-5'>Topic</div>
             <div class='col-2'>Threads</div>
             <div class='col-2'>Posts</div>
@@ -20,15 +20,17 @@
 
         {% for topic in topics_list %}
                 <div class='row bg-light text-info p-3 border'>
-                    <div class='col-1'>xx</div>
+                    <div class='col-1'>
+                        <p style='font-size:18px'>&#128218;</p>
+                    </div>
                     <div class='col-5'>
                         <a href="{{ url_for('topics.topic_page', topic_slug=topic.slug) }}">{{ topic.name }}</a>
                     </div>
                     <div class='col-2'>
-                        {{ get_not_secret_threads(topic_name=topic.name).all() | length }}
+                        {{ get_threads(topic_name=topic.name) | length }}
                     </div>
                     <div class='col-2'>
-                        {{ get_not_secret_messages(topic_name=topic.name).all() | length}}
+                        {{ get_messages(topic_name=topic.name) | length}}
                     </div>
                     <div class='col-2'>
                         {% set latest = get_latest_msg(topic_name=topic.name) %}
