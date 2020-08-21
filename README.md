@@ -9,6 +9,10 @@ Book Forum on Heroku:
 All the features defined during the first week have been implemented. 
 More precise description of each feature can be found below in the section [How to use?](#how-to-use)
 
+### Database schema
+
+[Schema](/documentation/db_schema.md)
+
 ### Solved issues and other app improvements since 9.8.
 
 - [x] typing in url `/success/registration` shows a message about
@@ -48,9 +52,9 @@ The same seems to happen with other violations of the column data restriction in
 - [x] Deleting a message from an empty Thread redirects the user to "?page=0" and causes "404 Page not found" error 
 --> should now redirect to page 1
 
-### Problems
+### Problems and suggestions
 
-* pagination for threads is missing
+* pagination for threads & search is missing
 * ~~there is no error message which would specify the situation when app is trying 
 to add to the database two messages with the same slug (duplicates in  message slugs are highly unlikely because now the slug 
 is created based on the first 3 characters of the message + random string of 8 characters
