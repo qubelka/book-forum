@@ -137,18 +137,17 @@ def edit_msg(topic_slug, thread_slug, msg_slug):
     else:
         abort(404)
 
-    if request.method == 'GET':
-        form = MsgForm(obj=msg)
+    form = MsgForm(obj=msg)
 
-        return render_template('topics/edit_message.html', form=form, topic_slug=topic_slug, thread_slug=thread_slug, msg_slug=msg_slug)
+    if form.validate_on_submit():
+        form.populate_obj(msg)
+        db.session.commit()
+        flash('The message has been successfully edited.', category='success')
+        updated_message_list = Message.query.filter(Message.thread_id == thread.id).paginate(page=1, per_page=5)
+        return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug, page=updated_message_list.pages))
 
-    form = MsgForm(formdata=request.form, obj=msg)
-    form.populate_obj(msg)
-    db.session.commit()
-    flash('The message has been successfully edited.', category='success')
-
-    updated_message_list = Message.query.filter(Message.thread_id == thread.id).paginate(page=1, per_page=5)
-    return redirect(url_for('topics.show_thread', topic_slug=topic_slug, thread_slug=thread_slug, page=updated_message_list.pages))
+    return render_template('topics/edit_message.html', form=form, topic_slug=topic_slug, thread_slug=thread_slug,
+                           msg_slug=msg_slug)
 
 @topics.route('/<topic_slug>/<thread_slug>/delete', methods=['GET', 'POST'])
 @login_required
