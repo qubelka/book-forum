@@ -55,7 +55,7 @@
                             Nothing found on request '<em>{{ query }}</em>' in threads.
                         {% endif %}
 
-                        {% if (result_thread and only_secret_items) %}
+                        {% if (result_thread and vars.only_secret_items) %}
                             Nothing found on request '<em>{{ query }}</em>' in threads.
                         {% endif %}
                 </li>
