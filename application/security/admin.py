@@ -9,7 +9,7 @@ from application.topics.helper import create_slug
 from application.models import User
 
 def active_users_excluding_admin():
-    return User.query.filter(and_(User.active == True, User.id != current_user.id))
+    return User.query.filter(and_(User.active, User.id != current_user.id))
 
 class AdminView(ModelView):
     column_display_pk = True
