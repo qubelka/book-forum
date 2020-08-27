@@ -11,28 +11,28 @@
 {% block content %}
     {% if topics_list %}
         <div class='row bg-info text-white p-3 my-3'>
-            <div class='col-1'>Type</div>
-            <div class='col-5'>Topic</div>
-            <div class='col-2'>Threads</div>
-            <div class='col-2'>Posts</div>
-            <div class='col-2'>Latest post</div>
+            <div class='d-none d-lg-block col-1'>Type</div>
+            <div class='col-12 col-lg-5'>Topic</div>
+            <div class='d-none d-lg-block col-2'>Threads</div>
+            <div class='d-none d-lg-block col-2'>Posts</div>
+            <div class='d-none d-lg-block col-2'>Latest post</div>
         </div>
 
         {% for topic in topics_list %}
                 <div class='row bg-light text-info p-3 border'>
-                    <div class='col-1'>
+                    <div class='d-none d-lg-block col-1'>
                         <p style='font-size:18px' role='img' aria-label='books'>&#128218;</p>
                     </div>
-                    <div class='col-5'>
+                    <div class='col-12 col-lg-5'>
                         <a href="{{ url_for('topics.topic_page', topic_slug=topic.slug) }}" style='max-width:100%; word-wrap:break-word;'>{{ topic.name }}</a>
                     </div>
-                    <div class='col-2'>
+                    <div class='d-none d-lg-block col-2'>
                         {{ get_threads(topic_name=topic.name) | length }}
                     </div>
-                    <div class='col-2'>
+                    <div class='d-none d-lg-block col-2'>
                         {{ get_messages(topic_name=topic.name) | length}}
                     </div>
-                    <div class='col-2'>
+                    <div class='d-none d-lg-block col-2'>
                         {% set latest = get_latest_msg(topic_name=topic.name) %}
                         {% if latest %}
                             {{ latest.modified.strftime('%b %-d, %Y at %H:%M %p') }}

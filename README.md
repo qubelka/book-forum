@@ -22,7 +22,7 @@ Voisi olla ainakin myös tekstimuodossa tieto, mikä on osion tyyppi (alt- tai t
 - [x] Kun selaimen ikkuna on kapea, niin ylärivin elementit asettuvat oudolla tavalla päällekkäin vasempaan reunaan.
 - [x] Jos lähettää viestin, jossa on 255 samaa merkkiä peräkkäin, sivun ulkoasu hajoaa. 
 Toisaalta 255 on aika pieni yläraja viestin pituudelle.
-- [ ] Tietokannan määrittelyssä joissakin sarakkeissa tyyppinä on db.String() ja joissakin db.Text, 
+- [x] Tietokannan määrittelyssä joissakin sarakkeissa tyyppinä on db.String() ja joissakin db.Text, 
 ainakaan ulkopuolinen koodin lukija ei keksi syytä, miksi on tällainen erottelu.
 - [x] Funktioissa tietokantaan tehdään kaksi erillistä kyselyä, joilla haetaan ensin tavallisista viesteistä ja
  sitten salaisista viesteistä. Tässä voi miettiä, saisiko tämä yhdellä kyselyllä tai 
@@ -30,7 +30,7 @@ ainakaan ulkopuolinen koodin lukija ei keksi syytä, miksi on tällainen erottel
 - [x] Tiedosto topics_bp.py rivi 122: Kun on and-ehto ja kaksi vertailua, 
 tuntuisi luontevammalta kirjoittaa vertailut ilman sulkuja
 - [x] Tiedosto admin.py rivi 12: Vertailun User.active == True sijasta riittäisi User.active?
-- [ ] Miksi salasanan maksimipituus on 20 merkkiä? Varmaan useilla se menee tuohon rajaan, mutta joku voi haluta pidemmänkin.
+- [x] Miksi salasanan maksimipituus on 20 merkkiä? Varmaan useilla se menee tuohon rajaan, mutta joku voi haluta pidemmänkin.
  
 ### Problems and suggestions
 
