@@ -31,7 +31,7 @@
         {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
             <div class='row bg-light text-info p-3 border'>
                 <div class='col-5'>
-                    <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}">{{ thread.name }}</a>
+                    <a href="{{ url_for('topics.show_thread', topic_slug=topic.slug, thread_slug=thread.slug) }}" style='max-width:100%; word-wrap:break-word;'>{{ thread.name }}</a>
                 </div>
                 <div class='col-2'>{{ thread.creator.username }}</div>
                 <div class='col-2'>{{ thread.messages | length }}</div>

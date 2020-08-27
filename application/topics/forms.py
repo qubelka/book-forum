@@ -9,4 +9,4 @@ class ThreadForm(FlaskForm):
     users = SelectMultipleField('Users', choices=[])
 
 class MsgForm(FlaskForm):
-    body = TextAreaField('Message body', [DataRequired(), Length(max=255, message='Message body can be max 255 characters long')])
+    body = TextAreaField('Message body', [DataRequired(), Length(max=280, message='Message body can be max 280 characters long')])

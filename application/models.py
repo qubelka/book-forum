@@ -23,9 +23,9 @@ class Role(db.Model, RoleMixin):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(1000), nullable=False)
     active = db.Column(db.Boolean(), default=True)
-    username = db.Column(db.String(100), unique=True, nullable=False)
+    username = db.Column(db.String(15), unique=True, nullable=False)
     joined = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))

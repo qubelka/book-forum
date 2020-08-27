@@ -17,4 +17,4 @@ class ExtendedRegisterForm(RegisterForm):
 
     password = PasswordField('Password', [DataRequired(),
                                           Length(min=6, message='Password must be at least 6 characters long'),
-                                          Length(max=20, message='Password can be max 20 characters long')])
+                                          Length(max=1000, message='Password can be max 1000 characters long')])

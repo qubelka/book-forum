@@ -4,7 +4,7 @@ from .helper import create_slug
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     slug = db.Column(db.String(80), unique=True)
-    body = db.Column(db.Text)
+    body = db.Column(db.String(280))
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
@@ -40,7 +40,7 @@ class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(70), nullable=False)
     slug = db.Column(db.String(80), unique=True)
-    description = db.Column(db.Text)
+    description = db.Column(db.String(255))
     threads = db.relationship('Thread', backref='topic', lazy=True, cascade='all,delete')
 
     def __init__(self, *args, **kwargs):
