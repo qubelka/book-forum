@@ -16,12 +16,15 @@ More precise description of each feature can be found below in the section [How 
 ### Solved issues and other app improvements since 23.8.
 [Earlier solved issues](/documentation/solved_issues.md)
 
+- [x] Add mobile view for Topic and Thread pages
+
+Instructor
 - [x] Sivulla sivuston nimenä on "Book Forum" mutta title-tagissa "Book forum"
 - [x] Kirjasymboli on hauska idea, mutta tämä ei toimi välttämättä kaikilla käyttäjillä. 
 Voisi olla ainakin myös tekstimuodossa tieto, mikä on osion tyyppi (alt- tai title-attribuutissa).
 - [x] Kun selaimen ikkuna on kapea, niin ylärivin elementit asettuvat oudolla tavalla päällekkäin vasempaan reunaan.
 - [x] Jos lähettää viestin, jossa on 255 samaa merkkiä peräkkäin, sivun ulkoasu hajoaa. 
-Toisaalta 255 on aika pieni yläraja viestin pituudelle.
+Toisaalta 255 on aika pieni yläraja viestin pituudelle. --> also changed max msg length to 280
 - [x] Tietokannan määrittelyssä joissakin sarakkeissa tyyppinä on db.String() ja joissakin db.Text, 
 ainakaan ulkopuolinen koodin lukija ei keksi syytä, miksi on tällainen erottelu.
 - [x] Funktioissa tietokantaan tehdään kaksi erillistä kyselyä, joilla haetaan ensin tavallisista viesteistä ja
@@ -32,9 +35,10 @@ tuntuisi luontevammalta kirjoittaa vertailut ilman sulkuja
 - [x] Tiedosto admin.py rivi 12: Vertailun User.active == True sijasta riittäisi User.active?
 - [x] Miksi salasanan maksimipituus on 20 merkkiä? Varmaan useilla se menee tuohon rajaan, mutta joku voi haluta pidemmänkin.
  
-### Problems and suggestions
+### Problems and suggestions for future features
 
 * pagination for threads & search is missing
+* mobile version for Messages page
 
 ### Intro
 

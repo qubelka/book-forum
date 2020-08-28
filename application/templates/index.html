@@ -30,7 +30,7 @@
                         {{ get_threads(topic_name=topic.name) | length }}
                     </div>
                     <div class='d-none d-lg-block col-2'>
-                        {{ get_messages(topic_name=topic.name) | length}}
+                        {{ get_messages(topic_name=topic.name) | length }}
                     </div>
                     <div class='d-none d-lg-block col-2'>
                         {% set latest = get_latest_msg(topic_name=topic.name) %}
