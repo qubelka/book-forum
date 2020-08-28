@@ -1,13 +1,13 @@
 from flask_login import current_user
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, not_
 
 from application.topics.models import *
+from application.models import *
 
 def get_messages(topic_name):
     if current_user.is_authenticated:
-        message_list = Message.query.join(Thread).join(Topic).\
-            filter(or_(and_(Topic.name == topic_name, Thread.secret_users.contains(current_user)),
-                       and_(Topic.name == topic_name, ~Thread.secret_users.any()))).all()
+        message_list = Message.query.join(Thread).join(Topic).outerjoin(secret_threads_users).outerjoin(User).\
+            filter(Topic.name == topic_name).filter(or_(User.username==current_user.username, ~Thread.secret_users.any())).all()
     else:
         message_list = Message.query.join(Thread).join(Topic).\
             filter(and_(Topic.name == topic_name, ~Thread.secret_users.any())).all()
@@ -15,9 +15,8 @@ def get_messages(topic_name):
 
 def get_latest_msg(topic_name):
     if current_user.is_authenticated:
-        latest_msg = Message.query.join(Thread).join(Topic). \
-            filter(or_(and_(Topic.name == topic_name, Thread.secret_users.contains(current_user)),
-                       and_(Topic.name == topic_name, ~Thread.secret_users.any()))).order_by(Message.modified.desc()).first()
+        latest_msg = Message.query.join(Thread).join(Topic).outerjoin(secret_threads_users).outerjoin(User).\
+            filter(Topic.name == topic_name).filter(or_(User.username==current_user.username, ~Thread.secret_users.any())).order_by(Message.modified.desc()).first()
     else:
         latest_msg = Message.query.join(Thread).join(Topic).\
             filter(and_(Topic.name == topic_name, ~Thread.secret_users.any())).order_by(Message.modified.desc()).first()
@@ -25,8 +24,8 @@ def get_latest_msg(topic_name):
 
 def get_threads(topic_name):
     if current_user.is_authenticated:
-        thread_list = Thread.query.join(Topic).filter(or_(and_(Topic.name == topic_name, Thread.secret_users.contains(current_user)),
-                       and_(Topic.name == topic_name, ~Thread.secret_users.any()))).all()
+        thread_list = Thread.query.join(Topic).outerjoin(secret_threads_users).outerjoin(User).\
+            filter(Topic.name == topic_name).filter(or_(User.username==current_user.username, ~Thread.secret_users.any())).all()
     else:
         thread_list = Thread.query.join(Topic).filter(and_(Topic.name == topic_name, ~Thread.secret_users.any())).all()
 
