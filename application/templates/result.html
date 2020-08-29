@@ -24,12 +24,12 @@
                             <div class='row p-2'>
                                 <div class='col'>
                                     <div class='row border border-bottom-0 bg-info'>
-                                        <div class='col-2 border-right text-white'>{{ msg.creator.username }}</div>
-                                        <div class='col-10 text-white'><small>{{ msg.modified.strftime('%b %-d, %Y at %-H:%-M %p') }}</small></div>
+                                        <div class='col-sm-2 border-right text-white'>{{ msg.creator.username }}</div>
+                                        <div class='col-sm-10 text-white'><small>{{ msg.modified.strftime('%b %-d, %Y at %-H:%-M %p') }}</small></div>
                                     </div>
                                     <div class='row border'>
-                                        <div class='col-2 border-right'></div>
-                                        <div class='col-10 lead text-break py-1'><a href="{{ url_for('topics.show_thread', topic_slug=msg.thread.topic.slug, thread_slug=msg.thread.slug) }}">{{ msg.body }}</a></div>
+                                        <div class='col-sm-2 border-right'></div>
+                                        <div class='col-sm-10 lead text-break py-1'><a href="{{ url_for('topics.show_thread', topic_slug=msg.thread.topic.slug, thread_slug=msg.thread.slug) }}">{{ msg.body }}</a></div>
                                     </div>
                                 </div>
                             </div>
