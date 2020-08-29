@@ -16,7 +16,7 @@ More precise description of each feature can be found below in the section [How 
 ### Solved issues and other app improvements since 23.8.
 [Earlier solved issues](/documentation/solved_issues.md)
 
-- [x] Add mobile view for Topic and Thread pages
+- [x] Add mobile view for Topic, Thread and Message pages
 
 Instructor
 - [x] Sivulla sivuston nimenä on "Book Forum" mutta title-tagissa "Book forum"
@@ -35,10 +35,9 @@ tuntuisi luontevammalta kirjoittaa vertailut ilman sulkuja
 - [x] Tiedosto admin.py rivi 12: Vertailun User.active == True sijasta riittäisi User.active?
 - [x] Miksi salasanan maksimipituus on 20 merkkiä? Varmaan useilla se menee tuohon rajaan, mutta joku voi haluta pidemmänkin.
  
-### Problems and suggestions for future features
+### Suggestions for future features
 
-* pagination for threads & search is missing
-* mobile version for Messages page
+* pagination for threads & search
 
 ### Intro
 
@@ -99,6 +98,12 @@ Register a new user by clicking "Register" button on the right side of the navig
 requires an email which will be used for signing in. The username, on the other hand, will identify the creator of 
 a particular message and will be visible for anyone on the forum. 
 
+* Registration fields
+1) Username length 4-15 characters. Username can contain only alphanumeric characters 
+(includes underscore) and should start and end with a letter. No double underscores allowed.
+2) Password length 6-1000 characters.
+3) Email validation handled by flask email-validator.
+
 #### Adding a new thread
 
 After signing in choose one of the topics to add a new thread. There are 4 predefined topics:
@@ -121,7 +126,7 @@ for you.
 Click on the thread inside which you want to add a new message. Click button "Add new message". If you 
 are not already signed in, the application will ask you to sign in. After signing in,
 type in your message and click "Add message". Message has no minimum character number requirements, but
-it can be max 255 characters long. 
+it can be max 280 characters long. 
 
 #### Editing messages
 

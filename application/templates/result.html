@@ -9,68 +9,97 @@
 {% endblock %}
 
 {% block content %}
-    <div class='row'>
+    <div class='row pb-1'>
         <div class='col'>
-            <ul style='font-size:18px;'>
-                <li>
-                    <strong>Results in messages:<br></strong>
-                    {% set vars = {'only_secret_items': True} %}
-                    {% if result_msg %}
-                        <table class='table'>
-                            <tbody>
-                            {% for msg in result_msg %}
-                                {% if (not msg.thread.secret_users) or (current_user in msg.thread.secret_users) %}
-                                    {% if vars.update({'only_secret_items': False}) %}{% endif %}
-                                    <tr>
-                                        <th scope='row' rowspan='2'>{{ msg.creator.username }}</th>
-                                        <td scope='col' colspan='3'><small>{{ msg.modified.strftime('%b %-d, %Y at %-H:%-M %p') }}</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td class='border-top-0 lead'><a href="{{ url_for('topics.show_thread', topic_slug=msg.thread.topic.slug, thread_slug=msg.thread.slug) }}">{{ msg.body }}</a></td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                        Nothing found on request <em>'{{ query }}'</em> in messages.
+            <div class='row'>
+                <p style='font-size:18px;' role='img' aria-label='star'>&#10024;</p>
+                <h5>Results in messages</h5>
+                <p style='font-size:18px;' role='img' aria-label='star'>&#10024;</p>
+            </div>
+            {% set vars = {'only_secret_items': True} %}
+            {% if result_msg %}
+                {% for msg in result_msg %}
+                    {% if (not msg.thread.secret_users) or (current_user in msg.thread.secret_users) %}
+                        {% if vars.update({'only_secret_items': False}) %}{% endif %}
+                            <div class='row p-2'>
+                                <div class='col'>
+                                    <div class='row border border-bottom-0 bg-info'>
+                                        <div class='col-2 border-right text-white'>{{ msg.creator.username }}</div>
+                                        <div class='col-10 text-white'><small>{{ msg.modified.strftime('%b %-d, %Y at %-H:%-M %p') }}</small></div>
+                                    </div>
+                                    <div class='row border'>
+                                        <div class='col-2 border-right'></div>
+                                        <div class='col-10 lead text-break py-1'><a href="{{ url_for('topics.show_thread', topic_slug=msg.thread.topic.slug, thread_slug=msg.thread.slug) }}">{{ msg.body }}</a></div>
+                                    </div>
+                                </div>
+                            </div>
                     {% endif %}
+                {% endfor %}
 
-                    {% if (result_msg and vars.only_secret_items) %}
-                        Nothing found on request <em>'{{ query }}'</em> in messages.
-                    {% endif %}
-                </li>
-                <br>
-                <li>
-                    <strong>Results in thread names:</strong><br>
-                        {% set vars = {'only_secret_items': True} %}
-                        {% if result_thread %}
-                            {% for thread in result_thread %}
-                                {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
-                                    {% if vars.update({'only_secret_items': False}) %}{% endif %}
-                                    <a class='lead' href="{{ url_for('topics.topic_page', topic_slug=thread.topic.slug) }}">{{ thread.name }}</a><br>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            Nothing found on request '<em>{{ query }}</em>' in threads.
-                        {% endif %}
+            {% else %}
+                <div class='row px-4'>
+                    Nothing found on request '<em>{{ query }}</em>' in messages.
+                </div>
+            {% endif %}
 
-                        {% if (result_thread and vars.only_secret_items) %}
-                            Nothing found on request '<em>{{ query }}</em>' in threads.
-                        {% endif %}
-                </li>
-                <br>
-                <li>
-                    <strong>Results in topic names:</strong><br>
-                    {% if result_topic %}
-                        {% for topic in result_topic %}
-                            <a class='lead' href='/'>{{ topic.name }}</a><br>
-                        {% endfor %}
-                    {% else %}
-                        Nothing found on request '<em>{{ query }}</em>' in topics.
-                    {% endif %}
-                </li>
-            </ul>
+            {% if (result_msg and vars.only_secret_items) %}
+                <div class='row px-4'>
+                    Nothing found on request '<em>{{ query }}</em>' in messages.
+                </div>
+            {% endif %}
         </div>
     </div>
+
+    <div class='row p-1'>
+        <div class='col'>
+            <div class='row'>
+                <p style='font-size:18px' role='img' aria-label='star'>&#10024;</p>
+                <h5>Results in thread names</h5>
+                <p style='font-size:18px' role='img' aria-label='star'>&#10024;</p>
+            </div>
+                {% set vars = {'only_secret_items': True} %}
+                {% if result_thread %}
+                    {% for thread in result_thread %}
+                        {% if (not thread.secret_users) or (current_user in thread.secret_users) %}
+                        {% if vars.update({'only_secret_items': False}) %}{% endif %}
+                            <div class='row p-2'>
+                                <a class='lead' href="{{ url_for('topics.topic_page', topic_slug=thread.topic.slug) }}">{{ thread.name }}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class='row px-4'>
+                        Nothing found on request '<em>{{ query }}</em>' in threads.
+                    </div>
+                {% endif %}
+
+                {% if (result_thread and vars.only_secret_items) %}
+                    <div class='row px-4'>
+                        Nothing found on request '<em>{{ query }}</em>' in threads.
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+
+    <div class='row p-1'>
+        <div class='col'>
+            <div class='row'>
+                <p style='font-size:18px' role='img' aria-label='star'>&#10024;</p>
+                <h5>Results in topic names</h5>
+                <p style='font-size:18px' role='img' aria-label='star'>&#10024;</p>
+            </div>
+                {% if result_topic %}
+                    {% for topic in result_topic %}
+                        <div class='row p-2'>
+                            <a class='lead' href='/'>{{ topic.name }}</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class='row px-4'>
+                        Nothing found on request '<em>{{ query }}</em>' in topics.
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+
 {% endblock %}
